@@ -178,7 +178,7 @@ const Landing = () => {
           >
             <div className="glass-holo rounded-3xl p-8 relative overflow-hidden">
               {/* Holographic accent line at top */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-holo-cyan via-primary to-holo-magenta" />
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-flux-cyan via-primary to-flux-magenta" />
               
               {/* Shimmer effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent animate-shimmer pointer-events-none" />
