@@ -1,0 +1,1 @@
+CREATE POLICY "Anyone can view site-visible changelogs" ON public.pending_changelogs FOR SELECT USING (site_visible = true);

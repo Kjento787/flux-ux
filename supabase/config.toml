@@ -1,1 +1,34 @@
 project_id = "nkdkquvvgtxrhexxsiyv"
+
+[functions.tmdb-proxy]
+verify_jwt = false
+
+[functions.check-ip-ban]
+verify_jwt = false
+
+[functions.get-client-ip]
+verify_jwt = false
+
+[functions.discord-new-movies]
+verify_jwt = false
+
+[functions.discord-new-tv]
+verify_jwt = false
+
+[functions.discord-notify-releases]
+verify_jwt = false
+
+[functions.discord-send-dm]
+verify_jwt = false
+
+[functions.discord-notify-favorite]
+verify_jwt = false
+
+[functions.discord-notify-new-seasons]
+verify_jwt = false
+
+[functions.ai-recommendations]
+verify_jwt = false
+
+[functions.discord-changelog]
+verify_jwt = false

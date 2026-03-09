@@ -1,0 +1,1 @@
+ALTER TABLE public.pending_changelogs ADD COLUMN site_visible boolean NOT NULL DEFAULT false;
