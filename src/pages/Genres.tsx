@@ -9,7 +9,7 @@ const Genres = () => {
   const [genres, setGenres] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchGenres().then(setGenres).catch(console.error);
+    fetchGenres().then((data) => setGenres(data.genres)).catch(console.error);
   }, []);
 
   return (

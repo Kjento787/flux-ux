@@ -1,8 +1,9 @@
 import { LegalPageLayout } from "@/components/LegalPageLayout";
+import { Cookie } from "lucide-react";
 
 const CookiePolicy = () => {
   return (
-    <LegalPageLayout title="Cookie Policy">
+    <LegalPageLayout title="Cookie Policy" lastUpdated="March 2026" icon={Cookie}>
       <p>This Cookie Policy explains how we use cookies and similar technologies.</p>
       <h2 className="text-xl font-semibold mt-6 mb-2">What Are Cookies</h2>
       <p>Cookies are small text files stored on your device when you visit our website.</p>
