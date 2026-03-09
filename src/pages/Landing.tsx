@@ -185,7 +185,7 @@ const Landing = () => {
               
               <div className="text-center mb-8 relative">
                 <h2 className="text-2xl font-bold mb-1 font-display text-gradient-aurora">
-                  {isLogin ? "Welcome Back" : "Join BloxWave"}
+                  {isLogin ? "Welcome Back" : "Join Flux-UX"}
                 </h2>
                 <p className="text-muted-foreground text-sm">
                   {isLogin ? "Sign in to continue watching" : "Create your account to start streaming"}
