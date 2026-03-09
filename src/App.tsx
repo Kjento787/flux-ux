@@ -98,7 +98,7 @@ const App = () => {
   });
 
   const handleSplashComplete = useCallback(() => {
-    sessionStorage.setItem("bloxwave-splash-seen", "true");
+    sessionStorage.setItem("fluxux-splash-seen", "true");
     setShowSplash(false);
   }, []);
 

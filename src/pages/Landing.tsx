@@ -277,7 +277,7 @@ const Landing = () => {
                   <button
                     type="button"
                     onClick={() => { setIsLogin(!isLogin); setErrors({}); setPassword(""); setConfirmPassword(""); }}
-                    className="text-primary hover:text-holo-cyan transition-colors font-semibold"
+                    className="text-primary hover:text-flux-cyan transition-colors font-semibold"
                   >
                     {isLogin ? "Sign up" : "Sign in"}
                   </button>

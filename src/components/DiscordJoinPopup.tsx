@@ -52,7 +52,7 @@ export const DiscordJoinPopup = () => {
             </div>
 
             <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
-              Get early access to new features, report bugs, suggest ideas, and hang out with other BloxWave users.
+              Get early access to new features, report bugs, suggest ideas, and hang out with other Flux-UX users.
             </p>
 
             <div className="flex gap-2">
