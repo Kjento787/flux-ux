@@ -53,14 +53,14 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         <div className="relative flex flex-col items-center gap-6">
           {/* Horizontal line left */}
           <motion.div
-            className="absolute top-1/2 right-[calc(50%+120px)] md:right-[calc(50%+160px)] h-px bg-gradient-to-l from-primary/50 to-transparent"
+            className="absolute top-1/2 right-[calc(50%+100px)] md:right-[calc(50%+140px)] h-px bg-gradient-to-l from-primary/50 to-transparent"
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: 120, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
           />
           {/* Horizontal line right */}
           <motion.div
-            className="absolute top-1/2 left-[calc(50%+120px)] md:left-[calc(50%+160px)] h-px bg-gradient-to-r from-primary/50 to-transparent"
+            className="absolute top-1/2 left-[calc(50%+100px)] md:left-[calc(50%+140px)] h-px bg-gradient-to-r from-primary/50 to-transparent"
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: 120, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
@@ -73,22 +73,22 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.8, type: "spring" as const, stiffness: 200, damping: 20 }}
           >
-            <span className="font-black tracking-[0.25em] uppercase text-4xl md:text-6xl lg:text-7xl">
+            <span className="font-display font-extrabold tracking-[0.15em] uppercase text-4xl md:text-6xl lg:text-7xl">
               <motion.span
                 className="text-gradient inline-block"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
               >
-                BLOX
+                FLUX
               </motion.span>
               <motion.span
-                className="text-foreground inline-block"
+                className="text-foreground/50 inline-block"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
               >
-                WAVE
+                -UX
               </motion.span>
             </span>
           </motion.div>
@@ -100,7 +100,7 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.6 }}
           >
-            Stream Without Limits
+            Your Universe of Entertainment
           </motion.p>
 
           {/* Loading bar */}
@@ -111,7 +111,7 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             transition={{ delay: 1.2, duration: 0.4 }}
           >
             <motion.div
-              className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full"
+              className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ delay: 1.3, duration: 1.2, ease: "easeInOut" }}

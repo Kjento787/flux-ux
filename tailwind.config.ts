@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        display: ['Orbitron', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
@@ -62,19 +62,22 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Holographic Colors (Gold/Amber variant)
+        // Flux Colors
         holo: {
-          violet: "hsl(var(--holo-violet))",
-          indigo: "hsl(var(--holo-indigo))",
-          cyan: "hsl(var(--holo-cyan))",
-          magenta: "hsl(var(--holo-magenta))",
-          pink: "hsl(var(--holo-pink))",
-          glow: "hsl(var(--holo-glow))",
+          violet: "hsl(var(--flux-violet))",
+          indigo: "hsl(var(--flux-indigo))",
+          cyan: "hsl(var(--flux-cyan))",
+          magenta: "hsl(var(--flux-magenta))",
+          pink: "hsl(var(--flux-blue))",
+          glow: "hsl(var(--flux-glow))",
         },
-        gold: {
-          DEFAULT: "hsl(40 65% 55%)",
-          light: "hsl(45 90% 60%)",
-          dark: "hsl(35 70% 45%)",
+        flux: {
+          violet: "hsl(var(--flux-violet))",
+          indigo: "hsl(var(--flux-indigo))",
+          cyan: "hsl(var(--flux-cyan))",
+          magenta: "hsl(var(--flux-magenta))",
+          blue: "hsl(var(--flux-blue))",
+          glow: "hsl(var(--flux-glow))",
         },
         surface: {
           0: "hsl(var(--surface-0))",
@@ -158,7 +161,7 @@ export default {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "holo-gradient": "linear-gradient(135deg, hsl(var(--holo-violet)), hsl(var(--holo-indigo)), hsl(var(--holo-cyan)))",
+        "flux-gradient": "linear-gradient(135deg, hsl(var(--flux-violet)), hsl(var(--flux-indigo)), hsl(var(--flux-cyan)))",
       },
     },
   },

@@ -43,17 +43,17 @@ export const Footer = () => {
 
   return (
     <footer className="relative mt-16 md:mt-24">
-      {/* Holographic gradient divider */}
+      {/* Gradient divider */}
       <div className="relative h-px w-full overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-holo-cyan/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-holo-magenta/40 to-primary/30 blur-sm" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-flux-cyan/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-flux-magenta/40 to-primary/30 blur-sm" />
       </div>
 
       <div className="bg-surface-0/95 backdrop-blur-xl">
         {/* Subtle aurora effect */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
           <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-primary/10 rounded-full blur-[100px]" />
-          <div className="absolute top-0 right-1/4 w-[250px] h-[150px] bg-holo-cyan/10 rounded-full blur-[80px]" />
+          <div className="absolute top-0 right-1/4 w-[250px] h-[150px] bg-flux-cyan/10 rounded-full blur-[80px]" />
         </div>
 
         <motion.div
@@ -68,12 +68,12 @@ export const Footer = () => {
             <motion.div className="col-span-2 md:col-span-1" variants={itemVariants}>
               <Logo className="mb-5" />
               <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-                The future of streaming. Unlimited movies and TV shows in stunning quality.
+                Your universe of entertainment. Unlimited movies and TV shows in stunning quality.
               </p>
               <div className="mt-6 flex items-center gap-2">
-                <span className="inline-block h-1.5 w-10 rounded-full bg-gradient-to-r from-primary to-holo-cyan" />
-                <span className="inline-block h-1.5 w-5 rounded-full bg-gradient-to-r from-holo-cyan to-holo-magenta opacity-60" />
-                <span className="inline-block h-1.5 w-2.5 rounded-full bg-holo-magenta opacity-30" />
+                <span className="inline-block h-1.5 w-10 rounded-full bg-gradient-to-r from-primary to-flux-cyan" />
+                <span className="inline-block h-1.5 w-5 rounded-full bg-gradient-to-r from-flux-cyan to-flux-magenta opacity-60" />
+                <span className="inline-block h-1.5 w-2.5 rounded-full bg-flux-magenta opacity-30" />
               </div>
             </motion.div>
 
@@ -151,7 +151,7 @@ export const Footer = () => {
             </div>
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-xs text-muted-foreground/60 font-display tracking-wider">
-                © {currentYear} BLOXWAVE. All rights reserved.
+                © {currentYear} FLUX-UX. All rights reserved.
               </p>
               <div className="flex items-center gap-4">
                 <p className="text-xs text-muted-foreground/60">
@@ -166,8 +166,8 @@ export const Footer = () => {
                   </a>
                 </p>
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-full bg-holo-cyan animate-pulse" />
-                  <span className="text-[10px] text-holo-cyan font-display tracking-wider">ONLINE</span>
+                  <div className="w-2 h-2 rounded-full bg-flux-cyan animate-pulse" />
+                  <span className="text-[10px] text-flux-cyan font-display tracking-wider">ONLINE</span>
                 </div>
               </div>
             </div>
