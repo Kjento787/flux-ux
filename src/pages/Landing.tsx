@@ -125,7 +125,7 @@ const Landing = () => {
         
         {/* Animated glow orbs */}
         <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-holo-cyan/10 blur-[100px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-flux-cyan/10 blur-[100px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
 
         {/* Content */}
         <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-12 gap-12 lg:gap-20 max-w-7xl mx-auto">
@@ -140,24 +140,24 @@ const Landing = () => {
               <Logo size="lg" />
             </motion.div>
             
-            <motion.h1 custom={1} variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-black font-display leading-[1.1] mb-6">
-              <span className="text-gradient-aurora">Stream Without</span>{" "}
+            <motion.h1 custom={1} variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-display leading-[1.1] mb-6">
+              <span className="text-gradient-aurora">Your Universe of</span>{" "}
               <span className="relative">
-                <span className="text-foreground">Limits</span>
-                <Sparkles className="absolute -top-2 -right-6 h-6 w-6 text-holo-cyan animate-pulse" />
+                <span className="text-foreground">Entertainment</span>
+                <Sparkles className="absolute -top-2 -right-6 h-6 w-6 text-flux-cyan animate-pulse" />
               </span>
             </motion.h1>
             
             <motion.p custom={2} variants={fadeUp} className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Unlimited movies and TV shows. Discover, watch, and explore — all in one place with holographic precision.
+              Unlimited movies and TV shows. Discover, watch, and explore — all in one place with Flux-UX.
             </motion.p>
 
             {/* Feature highlights */}
             <motion.div custom={3} variants={fadeUp} className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
               {[
                 { icon: Film, label: "Thousands of Movies", color: "primary" },
-                { icon: Tv, label: "TV Series", color: "holo-cyan" },
-                { icon: Zap, label: "Instant Streaming", color: "holo-magenta" },
+                { icon: Tv, label: "TV Series", color: "flux-cyan" },
+                { icon: Zap, label: "Instant Streaming", color: "flux-magenta" },
               ].map(({ icon: Icon, label, color }) => (
                 <div key={label} className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10">
                   <div className={`w-8 h-8 rounded-lg bg-${color}/10 flex items-center justify-center`}>
@@ -178,14 +178,14 @@ const Landing = () => {
           >
             <div className="glass-holo rounded-3xl p-8 relative overflow-hidden">
               {/* Holographic accent line at top */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-holo-cyan via-primary to-holo-magenta" />
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-flux-cyan via-primary to-flux-magenta" />
               
               {/* Shimmer effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent animate-shimmer pointer-events-none" />
               
               <div className="text-center mb-8 relative">
                 <h2 className="text-2xl font-bold mb-1 font-display text-gradient-aurora">
-                  {isLogin ? "Welcome Back" : "Join BloxWave"}
+                  {isLogin ? "Welcome Back" : "Join Flux-UX"}
                 </h2>
                 <p className="text-muted-foreground text-sm">
                   {isLogin ? "Sign in to continue watching" : "Create your account to start streaming"}
@@ -277,7 +277,7 @@ const Landing = () => {
                   <button
                     type="button"
                     onClick={() => { setIsLogin(!isLogin); setErrors({}); setPassword(""); setConfirmPassword(""); }}
-                    className="text-primary hover:text-holo-cyan transition-colors font-semibold"
+                    className="text-primary hover:text-flux-cyan transition-colors font-semibold"
                   >
                     {isLogin ? "Sign up" : "Sign in"}
                   </button>

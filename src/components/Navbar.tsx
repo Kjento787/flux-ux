@@ -176,7 +176,7 @@ export const Navbar = () => {
                   {isActive("/home") && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-holo-cyan via-primary to-holo-magenta rounded-full"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-flux-cyan via-primary to-flux-magenta rounded-full"
                     />
                   )}
                 </Link>

@@ -69,7 +69,7 @@ export const ProfileSettings = () => {
         if (error) throw error;
         toast.success('Discord ID saved — check your DMs!');
       } catch {
-        toast.info('Discord ID saved, but couldn\'t send a DM. Make sure you share a server with the Bloxwave bot.');
+        toast.info('Discord ID saved, but couldn\'t send a DM. Make sure you share a server with the Flux-UX bot.');
       }
     }
 

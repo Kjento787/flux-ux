@@ -16,8 +16,8 @@ export interface WatchList {
   addedAt: string;
 }
 
-const WATCH_PROGRESS_KEY = "bloxwave_watch_progress";
-const WATCH_LIST_KEY = "bloxwave_watch_list";
+const WATCH_PROGRESS_KEY = "fluxux_watch_progress";
+const WATCH_LIST_KEY = "fluxux_watch_list";
 
 export const getWatchProgress = (): WatchProgress[] => {
   try {
