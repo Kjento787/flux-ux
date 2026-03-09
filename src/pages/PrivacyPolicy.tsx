@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
     <LegalPageLayout title="Privacy Policy" lastUpdated="January 19, 2026" icon={Shield}>
       <LegalSection number="1" title="Introduction">
         <p>
-          Bloxwave ("we," "our," or "us") is committed to protecting your privacy. This Privacy
+          Flux-UX ("we," "our," or "us") is committed to protecting your privacy. This Privacy
           Policy explains how we collect, use, disclose, and safeguard your information when you
           use our streaming service. Please read this policy carefully to understand our practices
           regarding your personal data.
