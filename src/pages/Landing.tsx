@@ -125,7 +125,7 @@ const Landing = () => {
         
         {/* Animated glow orbs */}
         <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-holo-cyan/10 blur-[100px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-flux-cyan/10 blur-[100px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
 
         {/* Content */}
         <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 py-12 gap-12 lg:gap-20 max-w-7xl mx-auto">
