@@ -149,7 +149,7 @@ const Landing = () => {
             </motion.h1>
             
             <motion.p custom={2} variants={fadeUp} className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Unlimited movies and TV shows. Discover, watch, and explore — all in one place with holographic precision.
+              Unlimited movies and TV shows. Discover, watch, and explore — all in one place with Flux-UX.
             </motion.p>
 
             {/* Feature highlights */}
