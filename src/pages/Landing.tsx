@@ -143,8 +143,8 @@ const Landing = () => {
             <motion.h1 custom={1} variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-display leading-[1.1] mb-6">
               <span className="text-gradient-aurora">Your Universe of</span>{" "}
               <span className="relative">
-                <span className="text-foreground">Limits</span>
-                <Sparkles className="absolute -top-2 -right-6 h-6 w-6 text-holo-cyan animate-pulse" />
+                <span className="text-foreground">Entertainment</span>
+                <Sparkles className="absolute -top-2 -right-6 h-6 w-6 text-flux-cyan animate-pulse" />
               </span>
             </motion.h1>
             
