@@ -93,7 +93,7 @@ const AnimatedRoutes = () => {
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(() => {
-    const seen = sessionStorage.getItem("bloxwave-splash-seen");
+    const seen = sessionStorage.getItem("fluxux-splash-seen");
     return !seen;
   });
 
