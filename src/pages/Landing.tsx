@@ -156,8 +156,8 @@ const Landing = () => {
             <motion.div custom={3} variants={fadeUp} className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
               {[
                 { icon: Film, label: "Thousands of Movies", color: "primary" },
-                { icon: Tv, label: "TV Series", color: "holo-cyan" },
-                { icon: Zap, label: "Instant Streaming", color: "holo-magenta" },
+                { icon: Tv, label: "TV Series", color: "flux-cyan" },
+                { icon: Zap, label: "Instant Streaming", color: "flux-magenta" },
               ].map(({ icon: Icon, label, color }) => (
                 <div key={label} className="flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10">
                   <div className={`w-8 h-8 rounded-lg bg-${color}/10 flex items-center justify-center`}>
