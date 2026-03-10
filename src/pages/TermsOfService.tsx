@@ -49,7 +49,7 @@ const TermsOfService = () => {
       <LegalSection number="5" title="Content and Intellectual Property">
         <p>
           All content available through the Service, including but not limited to text, graphics,
-          logos, images, and software, is the property of Bloxwave or its content suppliers and is
+          logos, images, and software, is the property of Flux-UX or its content suppliers and is
           protected by intellectual property laws. Movie and TV show metadata is provided by TMDB
           (The Movie Database). You may not reproduce, distribute, modify, or create derivative
           works from any content without prior written permission.
