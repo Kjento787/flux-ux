@@ -124,8 +124,8 @@ Deno.serve(async (req) => {
             { name: "Released", value: fav.release_date || "Now", inline: true },
           ],
           footer: {
-            text: "BLOXWAVE · Release Alert",
-            icon_url: "https://bloxwave.lovable.app/favicon.ico",
+            text: "FLUX-UX · Release Alert",
+            icon_url: "https://flux-ux.lovable.app/favicon.ico",
           },
           timestamp: new Date().toISOString(),
         };

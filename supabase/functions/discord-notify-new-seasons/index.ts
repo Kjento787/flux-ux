@@ -138,8 +138,8 @@ Deno.serve(async (req) => {
                 { name: "New", value: seasonText, inline: true },
               ],
               footer: {
-                text: "BLOXWAVE · New Season Alert",
-                icon_url: "https://bloxwave.lovable.app/favicon.ico",
+                text: "FLUX-UX · New Season Alert",
+                icon_url: "https://flux-ux.lovable.app/favicon.ico",
               },
               timestamp: new Date().toISOString(),
             };

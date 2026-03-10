@@ -81,8 +81,8 @@ Deno.serve(async (req) => {
         { name: "Release", value: releaseStr, inline: true },
       ],
       footer: {
-        text: "BLOXWAVE · Notify Me",
-        icon_url: "https://bloxwave.lovable.app/favicon.ico",
+        text: "FLUX-UX · Notify Me",
+        icon_url: "https://flux-ux.lovable.app/favicon.ico",
       },
       timestamp: new Date().toISOString(),
     };

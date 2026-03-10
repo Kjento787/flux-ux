@@ -72,9 +72,9 @@ Deno.serve(async (req) => {
     };
 
     const payload = {
-      username: "Bloxwave Updates",
-      avatar_url: "https://bloxwave.lovable.app/favicon.ico",
-      content: `# ${emoji} What's New on Bloxwave`,
+      username: "Flux-UX Updates",
+      avatar_url: "https://flux-ux.lovable.app/favicon.ico",
+      content: `# ${emoji} What's New on Flux-UX`,
       embeds: [embed],
     };
 

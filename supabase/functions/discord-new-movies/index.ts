@@ -88,8 +88,8 @@ Deno.serve(async (req) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: "Bloxwave",
-          avatar_url: "https://bloxwave.lovable.app/favicon.ico",
+          username: "Flux-UX",
+          avatar_url: "https://flux-ux.lovable.app/favicon.ico",
           content: `# 🎬 New Drop\n**${movie.title}** just landed — stream it now.`,
           embeds: [embed],
         }),
