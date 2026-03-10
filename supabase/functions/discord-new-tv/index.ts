@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
         ? `https://image.tmdb.org/t/p/w1280${show.backdrop_path}`
         : null;
 
-      const showUrl = `https://bloxwave.lovable.app/#/tv/${show.id}`;
+      const showUrl = `https://flux-ux.lovable.app/#/tv/${show.id}`;
       const rating = show.vote_average ? `${show.vote_average.toFixed(1)}` : "N/A";
       const ratingBar = show.vote_average
         ? "█".repeat(Math.round(show.vote_average)) + "░".repeat(10 - Math.round(show.vote_average))
