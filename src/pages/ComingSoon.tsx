@@ -38,15 +38,18 @@ const ComingSoon = () => {
   const featured = allUpcoming.find((m) => m.backdrop_path && m.vote_count > 0);
 
   const handleNotify = (movie: Movie) => {
-    toggleFavorite({
-      tmdb_id: movie.id,
-      title: movie.title || movie.name || "",
-      content_type: "movie",
-      poster_path: movie.poster_path,
-      release_date: movie.release_date,
-    });
-    const isFav = favorites.some((f) => f.tmdb_id === movie.id);
-    toast.success(isFav ? "Removed from notifications" : "You'll be notified when it releases!");
+    const isFav = isFavorited(movie.id, "movie");
+    if (isFav) {
+      removeFavorite.mutate({ tmdb_id: movie.id, content_type: "movie" });
+    } else {
+      addFavorite.mutate({
+        tmdb_id: movie.id,
+        title: movie.title || movie.name || "",
+        content_type: "movie",
+        poster_path: movie.poster_path || undefined,
+        release_date: movie.release_date,
+      });
+    }
   };
 
   return (
