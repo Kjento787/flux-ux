@@ -6,7 +6,7 @@ const TermsOfService = () => {
     <LegalPageLayout title="Terms of Service" lastUpdated="January 19, 2026" icon={FileText}>
       <LegalSection number="1" title="Acceptance of Terms">
         <p>
-          By accessing or using Bloxwave ("the Service"), you agree to be bound by these Terms of Service.
+          By accessing or using Flux-UX ("the Service"), you agree to be bound by these Terms of Service.
           If you do not agree to these terms, please do not use our Service. We reserve the right to
           modify these terms at any time, and your continued use of the Service constitutes acceptance
           of any modifications.
