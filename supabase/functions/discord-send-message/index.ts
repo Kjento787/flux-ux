@@ -80,8 +80,8 @@ Deno.serve(async (req) => {
       description: message || undefined,
       color: embedColor,
       footer: {
-        text: "BLOXWAVE · Admin",
-        icon_url: "https://bloxwave.lovable.app/favicon.ico",
+        text: "FLUX-UX · Admin",
+        icon_url: "https://flux-ux.lovable.app/favicon.ico",
       },
       timestamp: new Date().toISOString(),
     };
@@ -106,8 +106,8 @@ Deno.serve(async (req) => {
       : `# ${prefix}\n${title ? `**${title}**` : ""}`;
 
     const payload: Record<string, unknown> = {
-      username: "Bloxwave",
-      avatar_url: "https://bloxwave.lovable.app/favicon.ico",
+      username: "Flux-UX",
+      avatar_url: "https://flux-ux.lovable.app/favicon.ico",
       content: contentText.trim(),
       embeds: [embed],
     };

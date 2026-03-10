@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
           : null;
 
         const title = details.title || details.name || fav.title;
-        const contentUrl = `https://bloxwave.lovable.app/#/${fav.content_type}/${fav.tmdb_id}`;
+        const contentUrl = `https://flux-ux.lovable.app/#/${fav.content_type}/${fav.tmdb_id}`;
         const rating = details.vote_average ? `${details.vote_average.toFixed(1)}` : "N/A";
         const ratingBar = details.vote_average
           ? "█".repeat(Math.round(details.vote_average)) + "░".repeat(10 - Math.round(details.vote_average))
@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
           description: [
             `> ${details.overview?.slice(0, 200) || "No synopsis available."}${details.overview?.length > 200 ? "…" : ""}`,
             "",
-            `**[▶ Stream Now on Bloxwave](${contentUrl})**`,
+            `**[▶ Stream Now on Flux-UX](${contentUrl})**`,
           ].join("\n"),
           url: contentUrl,
           color: isTV ? 0x7c3aed : 0xd4a44a,
@@ -124,8 +124,8 @@ Deno.serve(async (req) => {
             { name: "Released", value: fav.release_date || "Now", inline: true },
           ],
           footer: {
-            text: "BLOXWAVE · Release Alert",
-            icon_url: "https://bloxwave.lovable.app/favicon.ico",
+            text: "FLUX-UX · Release Alert",
+            icon_url: "https://flux-ux.lovable.app/favicon.ico",
           },
           timestamp: new Date().toISOString(),
         };

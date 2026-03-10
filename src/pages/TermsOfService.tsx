@@ -6,7 +6,7 @@ const TermsOfService = () => {
     <LegalPageLayout title="Terms of Service" lastUpdated="January 19, 2026" icon={FileText}>
       <LegalSection number="1" title="Acceptance of Terms">
         <p>
-          By accessing or using Bloxwave ("the Service"), you agree to be bound by these Terms of Service.
+          By accessing or using Flux-UX ("the Service"), you agree to be bound by these Terms of Service.
           If you do not agree to these terms, please do not use our Service. We reserve the right to
           modify these terms at any time, and your continued use of the Service constitutes acceptance
           of any modifications.
@@ -15,7 +15,7 @@ const TermsOfService = () => {
 
       <LegalSection number="2" title="Description of Service">
         <p>
-          Bloxwave provides a streaming platform that allows users to discover, browse, and watch
+          Flux-UX provides a streaming platform that allows users to discover, browse, and watch
           movies and TV shows. The Service may include features such as user accounts, watchlists,
           reviews, and personalized recommendations. We do not host any content directly; we aggregate
           and provide access to content from third-party sources.
@@ -49,7 +49,7 @@ const TermsOfService = () => {
       <LegalSection number="5" title="Content and Intellectual Property">
         <p>
           All content available through the Service, including but not limited to text, graphics,
-          logos, images, and software, is the property of Bloxwave or its content suppliers and is
+          logos, images, and software, is the property of Flux-UX or its content suppliers and is
           protected by intellectual property laws. Movie and TV show metadata is provided by TMDB
           (The Movie Database). You may not reproduce, distribute, modify, or create derivative
           works from any content without prior written permission.
@@ -58,7 +58,7 @@ const TermsOfService = () => {
 
       <LegalSection number="6" title="User-Generated Content">
         <p>
-          By submitting reviews, comments, or other content to the Service, you grant Bloxwave a
+          By submitting reviews, comments, or other content to the Service, you grant Flux-UX a
           non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display
           such content. You represent that you own or have the necessary rights to submit such
           content and that it does not violate any third-party rights.
@@ -85,7 +85,7 @@ const TermsOfService = () => {
 
       <LegalSection number="9" title="Limitation of Liability">
         <p className="uppercase text-xs tracking-wide">
-          TO THE MAXIMUM EXTENT PERMITTED BY LAW, BLOXWAVE SHALL NOT BE LIABLE FOR ANY INDIRECT,
+          TO THE MAXIMUM EXTENT PERMITTED BY LAW, FLUX-UX SHALL NOT BE LIABLE FOR ANY INDIRECT,
           INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR
           REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL,
           OR OTHER INTANGIBLE LOSSES.
@@ -94,7 +94,7 @@ const TermsOfService = () => {
 
       <LegalSection number="10" title="Indemnification">
         <p>
-          You agree to indemnify and hold harmless Bloxwave, its officers, directors, employees,
+          You agree to indemnify and hold harmless Flux-UX, its officers, directors, employees,
           and agents from any claims, damages, losses, liabilities, and expenses (including
           attorneys' fees) arising out of your use of the Service or violation of these Terms.
         </p>
@@ -103,7 +103,7 @@ const TermsOfService = () => {
       <LegalSection number="11" title="Governing Law">
         <p>
           These Terms shall be governed by and construed in accordance with the laws of the
-          jurisdiction in which Bloxwave operates, without regard to its conflict of law provisions.
+          jurisdiction in which Flux-UX operates, without regard to its conflict of law provisions.
           Any disputes arising under these Terms shall be subject to the exclusive jurisdiction
           of the courts in that jurisdiction.
         </p>

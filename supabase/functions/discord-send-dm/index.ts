@@ -46,16 +46,16 @@ Deno.serve(async (req) => {
           {
             title: "✅ Discord ID Linked Successfully",
             description: [
-              `Hey **${display_name || "there"}**! Your Discord account has been linked to your Bloxwave profile.`,
+              `Hey **${display_name || "there"}**! Your Discord account has been linked to your Flux-UX profile.`,
               "",
               "You'll now receive DM notifications when your favorited upcoming movies and TV shows are released.",
               "",
-              "Head to **Coming Soon** on Bloxwave to start tracking content!",
+              "Head to **Coming Soon** on Flux-UX to start tracking content!",
             ].join("\n"),
             color: 0x22c55e,
             footer: {
-              text: "BLOXWAVE",
-              icon_url: "https://bloxwave.lovable.app/favicon.ico",
+              text: "FLUX-UX",
+              icon_url: "https://flux-ux.lovable.app/favicon.ico",
             },
             timestamp: new Date().toISOString(),
           },

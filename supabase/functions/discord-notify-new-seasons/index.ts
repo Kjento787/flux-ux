@@ -128,7 +128,7 @@ Deno.serve(async (req) => {
                 "",
                 `The show now has **${tmdb.seasons} seasons** total.`,
                 "",
-                "Head over to Bloxwave to start watching! 🍿",
+                "Head over to Flux-UX to start watching! 🍿",
               ].join("\n"),
               color: 0x7c3aed,
               thumbnail: posterUrl ? { url: posterUrl } : undefined,
@@ -138,8 +138,8 @@ Deno.serve(async (req) => {
                 { name: "New", value: seasonText, inline: true },
               ],
               footer: {
-                text: "BLOXWAVE · New Season Alert",
-                icon_url: "https://bloxwave.lovable.app/favicon.ico",
+                text: "FLUX-UX · New Season Alert",
+                icon_url: "https://flux-ux.lovable.app/favicon.ico",
               },
               timestamp: new Date().toISOString(),
             };

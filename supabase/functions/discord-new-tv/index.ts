@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
         ? `https://image.tmdb.org/t/p/w1280${show.backdrop_path}`
         : null;
 
-      const showUrl = `https://bloxwave.lovable.app/#/tv/${show.id}`;
+      const showUrl = `https://flux-ux.lovable.app/#/tv/${show.id}`;
       const rating = show.vote_average ? `${show.vote_average.toFixed(1)}` : "N/A";
       const ratingBar = show.vote_average
         ? "█".repeat(Math.round(show.vote_average)) + "░".repeat(10 - Math.round(show.vote_average))
@@ -80,7 +80,7 @@ Deno.serve(async (req) => {
           "",
           `📅 Premieres **today** · ${today}`,
           "",
-          `**[▶ Stream Now on Bloxwave](${showUrl})**`,
+          `**[▶ Stream Now on Flux-UX](${showUrl})**`,
         ].join("\n"),
         url: showUrl,
         color: 0x7c3aed,
@@ -95,8 +95,8 @@ Deno.serve(async (req) => {
           { name: "Language", value: `\`${(show.original_language || "en").toUpperCase()}\``, inline: true },
         ],
         footer: {
-          text: "BLOXWAVE · New Series",
-          icon_url: "https://bloxwave.lovable.app/favicon.ico",
+          text: "FLUX-UX · New Series",
+          icon_url: "https://flux-ux.lovable.app/favicon.ico",
         },
         timestamp: new Date().toISOString(),
       };
@@ -105,8 +105,8 @@ Deno.serve(async (req) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: "Bloxwave",
-          avatar_url: "https://bloxwave.lovable.app/favicon.ico",
+          username: "Flux-UX",
+          avatar_url: "https://flux-ux.lovable.app/favicon.ico",
           content: `# 📺 New Series\n**${show.name}** just launched today — stream it now.`,
           embeds: [embed],
         }),

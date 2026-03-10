@@ -319,7 +319,7 @@ export const DiscordMessenger = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-white text-sm">Bloxwave</span>
+                  <span className="font-semibold text-white text-sm">Flux-UX</span>
                   <Badge className="bg-[#5865F2] text-white text-[10px] px-1 py-0 h-4">BOT</Badge>
                   <span className="text-xs text-[#949ba4]">Today</span>
                 </div>
@@ -367,7 +367,7 @@ export const DiscordMessenger = () => {
                     )}
 
                     <div className="flex items-center gap-1 mt-2 pt-2 border-t border-[#3f4147]">
-                      <span className="text-[#949ba4] text-[10px]">BLOXWAVE · Admin</span>
+                      <span className="text-[#949ba4] text-[10px]">FLUX-UX · Admin</span>
                     </div>
                   </div>
                 </div>

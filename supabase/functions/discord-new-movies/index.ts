@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
         ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
         : null;
 
-      const movieUrl = `https://bloxwave.lovable.app/#/movie/${movie.id}`;
+      const movieUrl = `https://flux-ux.lovable.app/#/movie/${movie.id}`;
       const year = movie.release_date ? movie.release_date.split("-")[0] : "TBA";
       const rating = movie.vote_average ? `${movie.vote_average.toFixed(1)}` : "N/A";
       const ratingBar = movie.vote_average
@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
         description: [
           `> ${movie.overview?.slice(0, 180) || "No synopsis available."}${movie.overview?.length > 180 ? "…" : ""}`,
           "",
-          `**[▶ Stream Now on Bloxwave](${movieUrl})**`,
+          `**[▶ Stream Now on Flux-UX](${movieUrl})**`,
         ].join("\n"),
         url: movieUrl,
         color: 0xd4a44a,
@@ -78,8 +78,8 @@ Deno.serve(async (req) => {
           { name: "Language", value: `\`${(movie.original_language || "en").toUpperCase()}\``, inline: true },
         ],
         footer: {
-          text: "BLOXWAVE · New Drop",
-          icon_url: "https://bloxwave.lovable.app/favicon.ico",
+          text: "FLUX-UX · New Drop",
+          icon_url: "https://flux-ux.lovable.app/favicon.ico",
         },
         timestamp: new Date().toISOString(),
       };
@@ -88,8 +88,8 @@ Deno.serve(async (req) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: "Bloxwave",
-          avatar_url: "https://bloxwave.lovable.app/favicon.ico",
+          username: "Flux-UX",
+          avatar_url: "https://flux-ux.lovable.app/favicon.ico",
           content: `# 🎬 New Drop\n**${movie.title}** just landed — stream it now.`,
           embeds: [embed],
         }),
