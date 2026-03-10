@@ -77,7 +77,7 @@ const ComingSoon = () => {
               <Button
                 onClick={() => handleNotify(featured)}
                 className="gap-2 rounded-xl"
-                variant={favorites.some((f) => f.tmdb_id === featured.id) ? "secondary" : "default"}
+                variant={isFavorited(featured.id, "movie") ? "secondary" : "default"}
               >
                 <Bell className="h-4 w-4" />
                 {favorites.some((f) => f.tmdb_id === featured.id) ? "Notifications On" : "Notify Me"}
