@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
         description: [
           `> ${movie.overview?.slice(0, 180) || "No synopsis available."}${movie.overview?.length > 180 ? "…" : ""}`,
           "",
-          `**[▶ Stream Now on Bloxwave](${movieUrl})**`,
+          `**[▶ Stream Now on Flux-UX](${movieUrl})**`,
         ].join("\n"),
         url: movieUrl,
         color: 0xd4a44a,
