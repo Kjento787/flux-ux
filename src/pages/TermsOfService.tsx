@@ -103,7 +103,7 @@ const TermsOfService = () => {
       <LegalSection number="11" title="Governing Law">
         <p>
           These Terms shall be governed by and construed in accordance with the laws of the
-          jurisdiction in which Bloxwave operates, without regard to its conflict of law provisions.
+          jurisdiction in which Flux-UX operates, without regard to its conflict of law provisions.
           Any disputes arising under these Terms shall be subject to the exclusive jurisdiction
           of the courts in that jurisdiction.
         </p>

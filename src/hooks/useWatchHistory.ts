@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-const WATCH_HISTORY_KEY = "bloxwave_watch_history_v2";
+const WATCH_HISTORY_KEY = "fluxux_watch_history_v2";
 
 export interface WatchHistoryEntry {
   contentId: number;
