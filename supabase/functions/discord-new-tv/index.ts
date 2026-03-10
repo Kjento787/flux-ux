@@ -80,7 +80,7 @@ Deno.serve(async (req) => {
           "",
           `📅 Premieres **today** · ${today}`,
           "",
-          `**[▶ Stream Now on Bloxwave](${showUrl})**`,
+          `**[▶ Stream Now on Flux-UX](${showUrl})**`,
         ].join("\n"),
         url: showUrl,
         color: 0x7c3aed,
