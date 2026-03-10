@@ -58,7 +58,7 @@ const TermsOfService = () => {
 
       <LegalSection number="6" title="User-Generated Content">
         <p>
-          By submitting reviews, comments, or other content to the Service, you grant Bloxwave a
+          By submitting reviews, comments, or other content to the Service, you grant Flux-UX a
           non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display
           such content. You represent that you own or have the necessary rights to submit such
           content and that it does not violate any third-party rights.
