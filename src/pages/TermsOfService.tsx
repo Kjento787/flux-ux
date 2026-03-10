@@ -94,7 +94,7 @@ const TermsOfService = () => {
 
       <LegalSection number="10" title="Indemnification">
         <p>
-          You agree to indemnify and hold harmless Bloxwave, its officers, directors, employees,
+          You agree to indemnify and hold harmless Flux-UX, its officers, directors, employees,
           and agents from any claims, damages, losses, liabilities, and expenses (including
           attorneys' fees) arising out of your use of the Service or violation of these Terms.
         </p>
