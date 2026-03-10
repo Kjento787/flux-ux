@@ -95,8 +95,8 @@ Deno.serve(async (req) => {
           { name: "Language", value: `\`${(show.original_language || "en").toUpperCase()}\``, inline: true },
         ],
         footer: {
-          text: "BLOXWAVE · New Series",
-          icon_url: "https://bloxwave.lovable.app/favicon.ico",
+          text: "FLUX-UX · New Series",
+          icon_url: "https://flux-ux.lovable.app/favicon.ico",
         },
         timestamp: new Date().toISOString(),
       };
