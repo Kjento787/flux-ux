@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
           : null;
 
         const title = details.title || details.name || fav.title;
-        const contentUrl = `https://bloxwave.lovable.app/#/${fav.content_type}/${fav.tmdb_id}`;
+        const contentUrl = `https://flux-ux.lovable.app/#/${fav.content_type}/${fav.tmdb_id}`;
         const rating = details.vote_average ? `${details.vote_average.toFixed(1)}` : "N/A";
         const ratingBar = details.vote_average
           ? "█".repeat(Math.round(details.vote_average)) + "░".repeat(10 - Math.round(details.vote_average))
