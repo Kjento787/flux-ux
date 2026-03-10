@@ -24,7 +24,7 @@ const ComingSoon = () => {
     queryFn: () => fetchUpcomingMovies(2),
   });
 
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, addFavorite, removeFavorite, isFavorited } = useFavorites();
 
   const allUpcoming = [
     ...(upcomingData?.results || []),
