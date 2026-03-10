@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
         ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
         : null;
 
-      const movieUrl = `https://bloxwave.lovable.app/#/movie/${movie.id}`;
+      const movieUrl = `https://flux-ux.lovable.app/#/movie/${movie.id}`;
       const year = movie.release_date ? movie.release_date.split("-")[0] : "TBA";
       const rating = movie.vote_average ? `${movie.vote_average.toFixed(1)}` : "N/A";
       const ratingBar = movie.vote_average
