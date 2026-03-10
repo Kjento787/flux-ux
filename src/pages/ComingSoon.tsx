@@ -122,7 +122,7 @@ const ComingSoon = () => {
                         handleNotify(movie);
                       }}
                     >
-                      <Bell className={cn("h-4 w-4", favorites.some((f) => f.tmdb_id === movie.id) && "fill-primary text-primary")} />
+                      <Bell className={cn("h-4 w-4", isFavorited(movie.id, "movie") && "fill-primary text-primary")} />
                     </Button>
                   </div>
                 </motion.div>

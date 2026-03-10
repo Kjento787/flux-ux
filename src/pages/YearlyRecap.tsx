@@ -143,7 +143,7 @@ const YearlyRecap = () => {
               </span>
             </h1>
             <p className="text-muted-foreground text-lg">
-              Here's what your year on Bloxwave looked like
+              Here's what your year on Flux-UX looked like
             </p>
           </motion.div>
 
