@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
               "",
               "You'll now receive DM notifications when your favorited upcoming movies and TV shows are released.",
               "",
-              "Head to **Coming Soon** on Bloxwave to start tracking content!",
+              "Head to **Coming Soon** on Flux-UX to start tracking content!",
             ].join("\n"),
             color: 0x22c55e,
             footer: {
