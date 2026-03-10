@@ -15,7 +15,7 @@ const TermsOfService = () => {
 
       <LegalSection number="2" title="Description of Service">
         <p>
-          Bloxwave provides a streaming platform that allows users to discover, browse, and watch
+          Flux-UX provides a streaming platform that allows users to discover, browse, and watch
           movies and TV shows. The Service may include features such as user accounts, watchlists,
           reviews, and personalized recommendations. We do not host any content directly; we aggregate
           and provide access to content from third-party sources.
