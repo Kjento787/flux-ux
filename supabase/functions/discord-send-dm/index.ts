@@ -46,7 +46,7 @@ Deno.serve(async (req) => {
           {
             title: "✅ Discord ID Linked Successfully",
             description: [
-              `Hey **${display_name || "there"}**! Your Discord account has been linked to your Bloxwave profile.`,
+              `Hey **${display_name || "there"}**! Your Discord account has been linked to your Flux-UX profile.`,
               "",
               "You'll now receive DM notifications when your favorited upcoming movies and TV shows are released.",
               "",
