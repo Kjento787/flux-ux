@@ -128,7 +128,7 @@ Deno.serve(async (req) => {
                 "",
                 `The show now has **${tmdb.seasons} seasons** total.`,
                 "",
-                "Head over to Bloxwave to start watching! 🍿",
+                "Head over to Flux-UX to start watching! 🍿",
               ].join("\n"),
               color: 0x7c3aed,
               thumbnail: posterUrl ? { url: posterUrl } : undefined,
