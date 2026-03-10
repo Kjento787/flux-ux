@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
           description: [
             `> ${details.overview?.slice(0, 200) || "No synopsis available."}${details.overview?.length > 200 ? "…" : ""}`,
             "",
-            `**[▶ Stream Now on Bloxwave](${contentUrl})**`,
+            `**[▶ Stream Now on Flux-UX](${contentUrl})**`,
           ].join("\n"),
           url: contentUrl,
           color: isTV ? 0x7c3aed : 0xd4a44a,
