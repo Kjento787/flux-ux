@@ -80,7 +80,7 @@ const ComingSoon = () => {
                 variant={isFavorited(featured.id, "movie") ? "secondary" : "default"}
               >
                 <Bell className="h-4 w-4" />
-                {favorites.some((f) => f.tmdb_id === featured.id) ? "Notifications On" : "Notify Me"}
+                {isFavorited(featured.id, "movie") ? "Notifications On" : "Notify Me"}
               </Button>
             </div>
           </section>
