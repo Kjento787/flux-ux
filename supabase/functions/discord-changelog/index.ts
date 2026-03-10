@@ -65,8 +65,8 @@ Deno.serve(async (req) => {
       description: changeLines,
       color: type === "fix" ? 0xf59e0b : type === "feature" ? 0x22c55e : type === "publish" ? 0x3b82f6 : 0xd4a44a,
       footer: {
-        text: "BLOXWAVE Changelog",
-        icon_url: "https://bloxwave.lovable.app/favicon.ico",
+        text: "FLUX-UX Changelog",
+        icon_url: "https://flux-ux.lovable.app/favicon.ico",
       },
       timestamp: new Date().toISOString(),
     };
