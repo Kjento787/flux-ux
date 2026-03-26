@@ -19,13 +19,17 @@ Deno.serve(async (req) => {
       throw new Error("Missing required environment variables");
     }
 
-    // Verify admin role
+    // Verify admin role (button must be used by logged-in admin)
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header");
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
     const token = authHeader.replace("Bearer ", "");
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
+
     if (authError || !user) throw new Error("Unauthorized");
 
     const { data: isAdmin } = await supabase.rpc("has_role", {
@@ -34,6 +38,7 @@ Deno.serve(async (req) => {
     });
     if (!isAdmin) throw new Error("Admin access required");
 
+    // Payload from frontend/button
     const { version, changes, type } = await req.json();
 
     if (!changes || !Array.isArray(changes) || changes.length === 0) {
@@ -58,12 +63,19 @@ Deno.serve(async (req) => {
     const label = typeLabel[type] || "Changelog";
 
     // Build changelog lines
-    const changeLines = changes.map((c: string) => `> • ${c}`).join("\n");
+    const changeLines = changes.map((c: string) => `> • ${c}`).join("\\n");
 
     const embed = {
       title: `${emoji} ${label}${version ? ` — v${version}` : ""}`,
       description: changeLines,
-      color: type === "fix" ? 0xf59e0b : type === "feature" ? 0x22c55e : type === "publish" ? 0x3b82f6 : 0xd4a44a,
+      color:
+        type === "fix"
+          ? 0xf59e0b
+          : type === "feature"
+          ? 0x22c55e
+          : type === "publish"
+          ? 0x3b82f6
+          : 0xd4a44a,
       footer: {
         text: "FLUX-UX Changelog",
         icon_url: "https://flux-ux.lovable.app/favicon.ico",
@@ -95,7 +107,7 @@ Deno.serve(async (req) => {
       JSON.stringify({ success: true, messageId: result.id }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
