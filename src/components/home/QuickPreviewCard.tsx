@@ -19,7 +19,7 @@ export const QuickPreviewCard = ({ movie, className, style, index = 0 }: QuickPr
   const [isHovered, setIsHovered] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { isInWatchlist, addToWatchlist, removeFromWatchlist } = useWatchlist();
 
   const isTV = movie.media_type === "tv";
