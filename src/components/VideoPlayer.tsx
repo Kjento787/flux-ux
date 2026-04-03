@@ -56,7 +56,7 @@ export const VideoPlayer = ({
   const [controlsVisible, setControlsVisible] = useState(true);
   const playerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
+  const hideControlsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const currentServer = EMBED_SERVERS.find(s => s.id === selectedServer) || EMBED_SERVERS[0];
   const embedUrl = getEmbedUrl(contentId, contentType, season, episode, selectedServer);
