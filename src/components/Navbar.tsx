@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, User, Menu, X, LogOut, Shield, Bookmark, Film, Tv, Compass, TrendingUp, Users, Gamepad2 } from "lucide-react";
+import { Search, User, Menu, X, LogOut, Shield, Home, Compass, Film, HelpCircle } from "lucide-react";
 import { NotificationBell } from "./NotificationBell";
 import { Logo } from "./Logo";
 import { Button } from "./ui/button";
@@ -11,15 +11,13 @@ import { User as SupabaseUser } from "@supabase/supabase-js";
 import { toast } from "sonner";
 
 const navItems = [
-  { label: "Home", href: "/home", icon: Film },
+  { label: "Home", href: "/home", icon: Home },
+  { label: "FAQ", href: "/changelog", icon: HelpCircle },
+  { label: "Explore", href: "/genres", icon: Compass },
   { label: "Movies", href: "/movies", icon: Film },
-  { label: "Series", href: "/genres", icon: Tv },
-  { label: "Explore", href: "/hubs", icon: Compass },
-  { label: "Trending", href: "/trending", icon: TrendingUp },
 ];
 
 export const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -28,12 +26,6 @@ export const Navbar = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -52,9 +44,7 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (searchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
+    if (searchOpen && searchInputRef.current) searchInputRef.current.focus();
   }, [searchOpen]);
 
   useEffect(() => {
@@ -87,29 +77,25 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
-            ? "bg-card/95 backdrop-blur-md shadow-sm border-b border-border/50"
-            : "bg-background/80 backdrop-blur-sm"
-        )}
-      >
-        <div className="w-full px-4 md:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-14">
-            <Logo size="sm" />
+      <nav className="sticky top-0 z-50 w-full bg-surface-1 border-b border-border/50">
+        <div className="w-full px-4 md:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-12">
+            {/* Logo */}
+            <Link to={user ? "/home" : "/"} className="flex-shrink-0">
+              <Logo size="sm" />
+            </Link>
 
-            {/* Desktop Nav - simple text links like KissKH */}
-            <div className="hidden md:flex items-center gap-1">
+            {/* Desktop nav links */}
+            <div className="hidden md:flex items-center gap-0.5">
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   to={item.href}
                   className={cn(
-                    "px-3 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-1.5",
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded text-sm transition-colors",
                     isActive(item.href)
                       ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   <item.icon className="h-4 w-4" />
@@ -118,73 +104,60 @@ export const Navbar = () => {
               ))}
             </div>
 
-            {/* Right Section */}
+            {/* Right side */}
             <div className="flex items-center gap-1">
-              {/* Search toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
+              {/* Search */}
+              <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="h-9 w-9 rounded-md"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Search className="h-4 w-4" />
-              </Button>
+                <span className="hidden md:inline">Search</span>
+              </button>
 
-              <div className="hidden md:block">
-                <ThemeToggle />
-              </div>
+              <ThemeToggle />
 
               {user && <NotificationBell />}
 
               {user ? (
-                <>
+                <div className="flex items-center gap-0.5">
                   {isAdmin && (
                     <Link to="/admin">
-                      <Button variant="ghost" size="icon" className="h-9 w-9 rounded-md" title="Admin">
+                      <Button variant="ghost" size="icon" className="h-8 w-8" title="Admin">
                         <Shield className="h-4 w-4 text-primary" />
                       </Button>
                     </Link>
                   )}
                   <Link to="/profile">
-                    <Button variant="ghost" size="icon" className="h-9 w-9 rounded-md" title="Profile">
+                    <Button variant="ghost" size="icon" className="h-8 w-8" title="Profile">
                       <User className="h-4 w-4" />
                     </Button>
                   </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hidden md:flex h-9 w-9 rounded-md"
-                    onClick={handleSignOut}
-                    title="Sign Out"
-                  >
+                  <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8" onClick={handleSignOut} title="Sign Out">
                     <LogOut className="h-4 w-4" />
                   </Button>
-                </>
+                </div>
               ) : (
-                <Link to="/">
-                  <Button variant="ghost" className="hidden md:flex h-9 px-4 rounded-md text-sm font-medium">
-                    <User className="h-4 w-4 mr-1.5" />
-                    Sign in
-                  </Button>
+                <Link to="/" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <User className="h-4 w-4" />
+                  <span className="hidden md:inline">Sign in</span>
                 </Link>
               )}
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden h-9 w-9 rounded-md"
+              <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-1.5 text-muted-foreground hover:text-foreground"
               >
                 {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Inline Search Bar */}
+        {/* Search bar */}
         {searchOpen && (
-          <div className="border-t border-border/50 bg-card/95 backdrop-blur-md px-4 md:px-8 py-3">
-            <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-xl mx-auto">
+          <div className="border-t border-border/50 bg-surface-1 px-4 md:px-6 py-2.5">
+            <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-lg mx-auto">
               <Search className="h-4 w-4 text-muted-foreground flex-shrink-0" />
               <input
                 ref={searchInputRef}
@@ -194,102 +167,51 @@ export const Navbar = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
               />
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7"
-                onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
-              >
-                <X className="h-3.5 w-3.5" />
-              </Button>
+              <button type="button" onClick={() => { setSearchOpen(false); setSearchQuery(""); }} className="text-muted-foreground hover:text-foreground">
+                <X className="h-4 w-4" />
+              </button>
             </form>
           </div>
         )}
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {mobileMenuOpen && (
         <>
-          <div
-            className="fixed inset-0 z-[55] bg-background/60 backdrop-blur-sm md:hidden"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          <div className="fixed top-14 right-0 bottom-0 z-[56] w-[75%] max-w-xs bg-card border-l border-border md:hidden overflow-y-auto">
-            <div className="p-4">
-              <div className="flex flex-col gap-1">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium transition-colors",
-                      isActive(item.href) ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-accent"
-                    )}
-                  >
-                    <item.icon className="h-4 w-4" />
-                    {item.label}
-                  </Link>
-                ))}
-
+          <div className="fixed inset-0 z-[55] bg-background/60 md:hidden" onClick={() => setMobileMenuOpen(false)} />
+          <div className="fixed top-12 right-0 bottom-0 z-[56] w-[70%] max-w-xs bg-surface-1 border-l border-border/50 md:hidden overflow-y-auto">
+            <div className="p-3 flex flex-col gap-0.5">
+              {navItems.map((item) => (
                 <Link
-                  to="/parties"
+                  key={item.label}
+                  to={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent"
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded text-sm transition-colors",
+                    isActive(item.href) ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground"
+                  )}
                 >
-                  <Users className="h-4 w-4" /> Watch Parties
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
                 </Link>
+              ))}
+              <div className="h-px bg-border/50 my-2" />
+              {user ? (
+                <button
+                  onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded text-sm text-muted-foreground hover:text-foreground w-full text-left"
+                >
+                  <LogOut className="h-4 w-4" /> Sign Out
+                </button>
+              ) : (
                 <Link
-                  to="/leaderboard"
+                  to="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent"
+                  className="mx-2 mt-2 py-2 rounded bg-primary text-primary-foreground font-medium text-center text-sm"
                 >
-                  <Gamepad2 className="h-4 w-4" /> Leaderboard
+                  Sign In
                 </Link>
-
-                <div className="h-px bg-border my-2" />
-
-                <div className="flex items-center justify-between px-3 py-2">
-                  <span className="text-sm text-muted-foreground">Theme</span>
-                  <ThemeToggle />
-                </div>
-
-                {user ? (
-                  <>
-                    {isAdmin && (
-                      <Link
-                        to="/admin"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium text-primary hover:bg-primary/5"
-                      >
-                        <Shield className="h-4 w-4" /> Admin
-                      </Link>
-                    )}
-                    <Link
-                      to="/profile"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent"
-                    >
-                      <Bookmark className="h-4 w-4" /> My List
-                    </Link>
-                    <button
-                      onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
-                      className="flex items-center gap-3 px-3 py-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent w-full text-left"
-                    >
-                      <LogOut className="h-4 w-4" /> Sign Out
-                    </button>
-                  </>
-                ) : (
-                  <Link
-                    to="/"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="mx-2 mt-3 py-2.5 rounded-md bg-primary text-primary-foreground font-medium text-center text-sm"
-                  >
-                    Sign In
-                  </Link>
-                )}
-              </div>
+              )}
             </div>
           </div>
         </>
