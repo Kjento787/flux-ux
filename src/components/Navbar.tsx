@@ -105,7 +105,10 @@ export const Navbar = () => {
             </div>
 
             {/* Right side */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5">
+              {/* Theme */}
+              <ThemeToggle />
+
               {/* Search */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
@@ -114,8 +117,6 @@ export const Navbar = () => {
                 <Search className="h-4 w-4" />
                 <span className="hidden md:inline">Search</span>
               </button>
-
-              <ThemeToggle />
 
               {user && <NotificationBell />}
 
