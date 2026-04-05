@@ -820,6 +820,58 @@ const Admin = () => {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            {/* DEV TAB - only for kjento.mertens@gmail.com */}
+            {isDev && (
+              <TabsContent value="dev" className="space-y-4">
+                <Card className="border-border/30 bg-card/50">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2"><Code className="h-5 w-5" /> User IP Addresses</CardTitle>
+                    <CardDescription>IP addresses collected from ban records</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {userIPs.length === 0 ? (
+                      <p className="text-muted-foreground text-sm text-center py-8">No IP data available — IPs are recorded when users are banned</p>
+                    ) : (
+                      <div className="rounded-xl border border-border/30 overflow-hidden">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>User</TableHead>
+                              <TableHead>Email</TableHead>
+                              <TableHead>IP Address</TableHead>
+                              <TableHead>Actions</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {userIPs.map((u: any, i: number) => (
+                              <TableRow key={i}>
+                                <TableCell className="text-sm font-medium">{u.display_name}</TableCell>
+                                <TableCell className="text-sm text-muted-foreground">{u.email}</TableCell>
+                                <TableCell className="font-mono text-sm">{u.ip_address}</TableCell>
+                                <TableCell>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-xs"
+                                    onClick={() => {
+                                      navigator.clipboard.writeText(u.ip_address);
+                                      toast.success("IP copied");
+                                    }}
+                                  >
+                                    Copy
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
           </Tabs>
         </main>
         <Footer />
