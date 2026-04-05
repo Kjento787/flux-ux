@@ -25,7 +25,7 @@ import { motion } from "framer-motion";
 import {
   Shield, Users, Ban, MessageSquare, Star, Film, Activity,
   Search, Trash2, Eye, UserX, Clock, Globe, PartyPopper,
-  AlertTriangle, Check, X, Crown, Send, Sparkles,
+  AlertTriangle, Check, X, Crown, Send, Sparkles, Plus, Code,
 } from "lucide-react";
 
 const Admin = () => {
