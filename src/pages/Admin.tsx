@@ -49,6 +49,7 @@ const Admin = () => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) { navigate("/auth"); return; }
+      setCurrentUserEmail(session.user.email || "");
       const { data } = await supabase
         .from("user_roles")
         .select("role")
