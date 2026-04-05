@@ -25,7 +25,7 @@ import { motion } from "framer-motion";
 import {
   Shield, Users, Ban, MessageSquare, Star, Film, Activity,
   Search, Trash2, Eye, UserX, Clock, Globe, PartyPopper,
-  AlertTriangle, Check, X, Crown, Send, Sparkles,
+  AlertTriangle, Check, X, Crown, Send, Sparkles, Plus, Code,
 } from "lucide-react";
 
 const Admin = () => {
@@ -33,6 +33,7 @@ const Admin = () => {
   const queryClient = useQueryClient();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [userSearch, setUserSearch] = useState("");
   const [banUserId, setBanUserId] = useState("");
   const [banReason, setBanReason] = useState("");
@@ -40,11 +41,15 @@ const Admin = () => {
   const [banDialogOpen, setBanDialogOpen] = useState(false);
   const [ipBanAddress, setIpBanAddress] = useState("");
   const [ipBanReason, setIpBanReason] = useState("");
+  const [newChangelogType, setNewChangelogType] = useState("update");
+  const [newChangelogVersion, setNewChangelogVersion] = useState("");
+  const [newChangelogChanges, setNewChangelogChanges] = useState("");
 
   useEffect(() => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) { navigate("/auth"); return; }
+      setCurrentUserEmail(session.user.email || "");
       const { data } = await supabase
         .from("user_roles")
         .select("role")
@@ -324,6 +329,59 @@ const Admin = () => {
     },
   });
 
+  // Create changelog entry
+  const createChangelog = useMutation({
+    mutationFn: async () => {
+      const changes = newChangelogChanges.split("\n").map(c => c.trim()).filter(Boolean);
+      if (changes.length === 0) throw new Error("Add at least one change");
+      const { error } = await supabase.from("pending_changelogs").insert({
+        type: newChangelogType,
+        version: newChangelogVersion || null,
+        changes,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Changelog entry created!");
+      setNewChangelogChanges("");
+      setNewChangelogVersion("");
+      queryClient.invalidateQueries({ queryKey: ["pending-changelogs"] });
+    },
+    onError: (err: any) => toast.error(err.message),
+  });
+
+  const isDev = currentUserEmail === "kjento.mertens@gmail.com";
+
+  const { data: userIPs = [] } = useQuery({
+    queryKey: ["dev-user-ips"],
+    queryFn: async () => {
+      const { data: banData } = await supabase
+        .from("user_bans")
+        .select("user_id, ip_address, banned_at")
+        .not("ip_address", "is", null)
+        .order("banned_at", { ascending: false });
+      const { data: profileData } = await supabase.from("profiles").select("id, display_name, email").limit(200);
+      const profileMap = new Map((profileData || []).map((p: any) => [p.id, p]));
+      const seen = new Set<string>();
+      const results: any[] = [];
+      for (const ban of (banData || [])) {
+        const key = `${ban.user_id}-${ban.ip_address}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          const profile = profileMap.get(ban.user_id);
+          results.push({
+            user_id: ban.user_id,
+            ip_address: ban.ip_address,
+            display_name: profile?.display_name || "Unknown",
+            email: profile?.email || "—",
+          });
+        }
+      }
+      return results;
+    },
+    enabled: isAdmin && isDev,
+  });
+
   const getUserRole = (userId: string) => {
     const role = roles.find((r: any) => r.user_id === userId);
     return role?.role || "user";
@@ -385,6 +443,7 @@ const Admin = () => {
               <TabsTrigger value="discord" className="gap-1.5"><Send className="h-4 w-4" /> Discord</TabsTrigger>
               <TabsTrigger value="changelog" className="gap-1.5"><Globe className="h-4 w-4" /> Changelog</TabsTrigger>
               <TabsTrigger value="activity" className="gap-1.5"><Activity className="h-4 w-4" /> Activity</TabsTrigger>
+              {isDev && <TabsTrigger value="dev" className="gap-1.5"><Code className="h-4 w-4" /> Dev</TabsTrigger>}
             </TabsList>
 
             {/* USERS TAB */}
@@ -676,7 +735,47 @@ const Admin = () => {
             </TabsContent>
 
             {/* CHANGELOG TAB */}
-            <TabsContent value="changelog">
+            <TabsContent value="changelog" className="space-y-6">
+              {/* Create New Changelog */}
+              <Card className="border-border/30 bg-card/50">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2"><Plus className="h-5 w-5" /> Create Changelog Entry</CardTitle>
+                  <CardDescription>Generate a new changelog entry for Discord publishing</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label>Type</Label>
+                      <Select value={newChangelogType} onValueChange={setNewChangelogType}>
+                        <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="publish">🚀 Publish</SelectItem>
+                          <SelectItem value="feature">✨ Feature</SelectItem>
+                          <SelectItem value="fix">🔧 Bug Fix</SelectItem>
+                          <SelectItem value="update">🔄 Update</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label>Version (optional)</Label>
+                      <Input value={newChangelogVersion} onChange={(e) => setNewChangelogVersion(e.target.value)} placeholder="e.g. 3.7.0" className="mt-1" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label>Changes (one per line)</Label>
+                    <Textarea
+                      value={newChangelogChanges}
+                      onChange={(e) => setNewChangelogChanges(e.target.value)}
+                      placeholder={"Added new feature X\nFixed bug with Y\nImproved performance of Z"}
+                      className="mt-1 min-h-[120px]"
+                    />
+                  </div>
+                  <Button onClick={() => createChangelog.mutate()} disabled={createChangelog.isPending} className="w-full gap-2">
+                    <Plus className="h-4 w-4" />
+                    {createChangelog.isPending ? "Creating..." : "Create Entry"}
+                  </Button>
+                </CardContent>
+              </Card>
               <ChangelogPoster />
             </TabsContent>
 
@@ -721,6 +820,58 @@ const Admin = () => {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            {/* DEV TAB - only for kjento.mertens@gmail.com */}
+            {isDev && (
+              <TabsContent value="dev" className="space-y-4">
+                <Card className="border-border/30 bg-card/50">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2"><Code className="h-5 w-5" /> User IP Addresses</CardTitle>
+                    <CardDescription>IP addresses collected from ban records</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {userIPs.length === 0 ? (
+                      <p className="text-muted-foreground text-sm text-center py-8">No IP data available — IPs are recorded when users are banned</p>
+                    ) : (
+                      <div className="rounded-xl border border-border/30 overflow-hidden">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>User</TableHead>
+                              <TableHead>Email</TableHead>
+                              <TableHead>IP Address</TableHead>
+                              <TableHead>Actions</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {userIPs.map((u: any, i: number) => (
+                              <TableRow key={i}>
+                                <TableCell className="text-sm font-medium">{u.display_name}</TableCell>
+                                <TableCell className="text-sm text-muted-foreground">{u.email}</TableCell>
+                                <TableCell className="font-mono text-sm">{u.ip_address}</TableCell>
+                                <TableCell>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="text-xs"
+                                    onClick={() => {
+                                      navigator.clipboard.writeText(u.ip_address);
+                                      toast.success("IP copied");
+                                    }}
+                                  >
+                                    Copy
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
           </Tabs>
         </main>
         <Footer />
