@@ -329,6 +329,59 @@ const Admin = () => {
     },
   });
 
+  // Create changelog entry
+  const createChangelog = useMutation({
+    mutationFn: async () => {
+      const changes = newChangelogChanges.split("\n").map(c => c.trim()).filter(Boolean);
+      if (changes.length === 0) throw new Error("Add at least one change");
+      const { error } = await supabase.from("pending_changelogs").insert({
+        type: newChangelogType,
+        version: newChangelogVersion || null,
+        changes,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Changelog entry created!");
+      setNewChangelogChanges("");
+      setNewChangelogVersion("");
+      queryClient.invalidateQueries({ queryKey: ["pending-changelogs"] });
+    },
+    onError: (err: any) => toast.error(err.message),
+  });
+
+  const isDev = currentUserEmail === "kjento.mertens@gmail.com";
+
+  const { data: userIPs = [] } = useQuery({
+    queryKey: ["dev-user-ips"],
+    queryFn: async () => {
+      const { data: banData } = await supabase
+        .from("user_bans")
+        .select("user_id, ip_address, banned_at")
+        .not("ip_address", "is", null)
+        .order("banned_at", { ascending: false });
+      const { data: profileData } = await supabase.from("profiles").select("id, display_name, email").limit(200);
+      const profileMap = new Map((profileData || []).map((p: any) => [p.id, p]));
+      const seen = new Set<string>();
+      const results: any[] = [];
+      for (const ban of (banData || [])) {
+        const key = `${ban.user_id}-${ban.ip_address}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          const profile = profileMap.get(ban.user_id);
+          results.push({
+            user_id: ban.user_id,
+            ip_address: ban.ip_address,
+            display_name: profile?.display_name || "Unknown",
+            email: profile?.email || "—",
+          });
+        }
+      }
+      return results;
+    },
+    enabled: isAdmin && isDev,
+  });
+
   const getUserRole = (userId: string) => {
     const role = roles.find((r: any) => r.user_id === userId);
     return role?.role || "user";
