@@ -49,6 +49,7 @@
     --surface-3: 0 0% 90%;
   }
 
+  /* ===== DEFAULT DARK ===== */
   .dark {
     --background: 0 0% 12%;
     --foreground: 0 0% 88%;
@@ -91,6 +92,134 @@
     --surface-1: 0 0% 15%;
     --surface-2: 0 0% 19%;
     --surface-3: 0 0% 22%;
+  }
+
+  /* ===== THEME: OCEAN BLUE ===== */
+  .dark[data-color-theme="ocean"] {
+    --primary: 210 80% 55%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 210 80% 55%;
+    --sidebar-primary: 210 80% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-ring: 210 80% 55%;
+    --flux-violet: 210 80% 55%;
+    --flux-indigo: 210 70% 50%;
+    --flux-cyan: 210 80% 55%;
+    --flux-magenta: 210 65% 50%;
+    --flux-blue: 210 75% 55%;
+    --flux-glow: 210 80% 55%;
+  }
+
+  /* ===== THEME: CRIMSON RED ===== */
+  .dark[data-color-theme="crimson"] {
+    --primary: 0 75% 55%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 0 75% 55%;
+    --sidebar-primary: 0 75% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-ring: 0 75% 55%;
+    --flux-violet: 0 75% 55%;
+    --flux-indigo: 0 65% 50%;
+    --flux-cyan: 0 75% 55%;
+    --flux-magenta: 0 60% 50%;
+    --flux-blue: 0 70% 55%;
+    --flux-glow: 0 75% 55%;
+  }
+
+  /* ===== THEME: EMERALD GREEN ===== */
+  .dark[data-color-theme="emerald"] {
+    --primary: 150 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 150 70% 45%;
+    --sidebar-primary: 150 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-ring: 150 70% 45%;
+    --flux-violet: 150 70% 45%;
+    --flux-indigo: 150 60% 40%;
+    --flux-cyan: 150 70% 45%;
+    --flux-magenta: 150 55% 40%;
+    --flux-blue: 150 65% 45%;
+    --flux-glow: 150 70% 45%;
+  }
+
+  /* ===== THEME: VIOLET PURPLE ===== */
+  .dark[data-color-theme="violet"] {
+    --primary: 270 70% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 270 70% 60%;
+    --sidebar-primary: 270 70% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-ring: 270 70% 60%;
+    --flux-violet: 270 70% 60%;
+    --flux-indigo: 270 60% 55%;
+    --flux-cyan: 270 70% 60%;
+    --flux-magenta: 270 55% 55%;
+    --flux-blue: 270 65% 60%;
+    --flux-glow: 270 70% 60%;
+  }
+
+  /* ===== THEME: ROSE PINK ===== */
+  .dark[data-color-theme="rose"] {
+    --primary: 340 75% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 340 75% 60%;
+    --sidebar-primary: 340 75% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-ring: 340 75% 60%;
+    --flux-violet: 340 75% 60%;
+    --flux-indigo: 340 65% 55%;
+    --flux-cyan: 340 75% 60%;
+    --flux-magenta: 340 60% 55%;
+    --flux-blue: 340 70% 60%;
+    --flux-glow: 340 75% 60%;
+  }
+
+  /* ===== THEME: TEAL ===== */
+  .dark[data-color-theme="teal"] {
+    --primary: 175 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 175 70% 45%;
+    --sidebar-primary: 175 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-ring: 175 70% 45%;
+    --flux-violet: 175 70% 45%;
+    --flux-indigo: 175 60% 40%;
+    --flux-cyan: 175 70% 45%;
+    --flux-magenta: 175 55% 40%;
+    --flux-blue: 175 65% 45%;
+    --flux-glow: 175 70% 45%;
+  }
+
+  /* ===== THEME: SUNSET ORANGE ===== */
+  .dark[data-color-theme="sunset"] {
+    --primary: 25 90% 55%;
+    --primary-foreground: 0 0% 10%;
+    --ring: 25 90% 55%;
+    --sidebar-primary: 25 90% 55%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-ring: 25 90% 55%;
+    --flux-violet: 25 90% 55%;
+    --flux-indigo: 25 80% 50%;
+    --flux-cyan: 25 90% 55%;
+    --flux-magenta: 25 70% 50%;
+    --flux-blue: 25 85% 55%;
+    --flux-glow: 25 90% 55%;
+  }
+
+  /* ===== THEME: CYBER YELLOW ===== */
+  .dark[data-color-theme="cyber"] {
+    --primary: 50 90% 50%;
+    --primary-foreground: 0 0% 10%;
+    --ring: 50 90% 50%;
+    --sidebar-primary: 50 90% 50%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-ring: 50 90% 50%;
+    --flux-violet: 50 90% 50%;
+    --flux-indigo: 50 80% 45%;
+    --flux-cyan: 50 90% 50%;
+    --flux-magenta: 50 70% 45%;
+    --flux-blue: 50 85% 50%;
+    --flux-glow: 50 90% 50%;
   }
 }
 
