@@ -3,22 +3,44 @@ import { supabase } from "@/integrations/supabase/client";
 
 type Theme = "light" | "dark" | "system";
 
+export type ColorTheme = "default" | "ocean" | "crimson" | "emerald" | "violet" | "rose" | "teal" | "sunset" | "cyber";
+
+export const COLOR_THEMES: { value: ColorTheme; label: string; color: string }[] = [
+  { value: "default", label: "Amber", color: "hsl(35 85% 55%)" },
+  { value: "ocean", label: "Ocean", color: "hsl(210 80% 55%)" },
+  { value: "crimson", label: "Crimson", color: "hsl(0 75% 55%)" },
+  { value: "emerald", label: "Emerald", color: "hsl(150 70% 45%)" },
+  { value: "violet", label: "Violet", color: "hsl(270 70% 60%)" },
+  { value: "rose", label: "Rose", color: "hsl(340 75% 60%)" },
+  { value: "teal", label: "Teal", color: "hsl(175 70% 45%)" },
+  { value: "sunset", label: "Sunset", color: "hsl(25 90% 55%)" },
+  { value: "cyber", label: "Cyber", color: "hsl(50 90% 50%)" },
+];
+
 export const useTheme = () => {
   const [theme, setThemeState] = useState<Theme>("dark");
+  const [colorTheme, setColorThemeState] = useState<ColorTheme>("default");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadTheme = async () => {
-      // Check localStorage first
       const stored = localStorage.getItem("theme") as Theme | null;
+      const storedColor = localStorage.getItem("colorTheme") as ColorTheme | null;
+      
       if (stored) {
         setThemeState(stored);
         applyTheme(stored);
+      }
+      if (storedColor) {
+        setColorThemeState(storedColor);
+        applyColorTheme(storedColor);
+      }
+
+      if (stored || storedColor) {
         setIsLoading(false);
         return;
       }
 
-      // Check user preference from DB
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data } = await supabase
@@ -51,12 +73,20 @@ export const useTheme = () => {
     }
   };
 
+  const applyColorTheme = (ct: ColorTheme) => {
+    const root = document.documentElement;
+    if (ct === "default") {
+      root.removeAttribute("data-color-theme");
+    } else {
+      root.setAttribute("data-color-theme", ct);
+    }
+  };
+
   const setTheme = async (newTheme: Theme) => {
     setThemeState(newTheme);
     applyTheme(newTheme);
     localStorage.setItem("theme", newTheme);
 
-    // Save to DB if logged in
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       await supabase
@@ -66,5 +96,11 @@ export const useTheme = () => {
     }
   };
 
-  return { theme, setTheme, isLoading };
+  const setColorTheme = (ct: ColorTheme) => {
+    setColorThemeState(ct);
+    applyColorTheme(ct);
+    localStorage.setItem("colorTheme", ct);
+  };
+
+  return { theme, setTheme, colorTheme, setColorTheme, isLoading };
 };
