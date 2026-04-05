@@ -735,7 +735,47 @@ const Admin = () => {
             </TabsContent>
 
             {/* CHANGELOG TAB */}
-            <TabsContent value="changelog">
+            <TabsContent value="changelog" className="space-y-6">
+              {/* Create New Changelog */}
+              <Card className="border-border/30 bg-card/50">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2"><Plus className="h-5 w-5" /> Create Changelog Entry</CardTitle>
+                  <CardDescription>Generate a new changelog entry for Discord publishing</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label>Type</Label>
+                      <Select value={newChangelogType} onValueChange={setNewChangelogType}>
+                        <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="publish">🚀 Publish</SelectItem>
+                          <SelectItem value="feature">✨ Feature</SelectItem>
+                          <SelectItem value="fix">🔧 Bug Fix</SelectItem>
+                          <SelectItem value="update">🔄 Update</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label>Version (optional)</Label>
+                      <Input value={newChangelogVersion} onChange={(e) => setNewChangelogVersion(e.target.value)} placeholder="e.g. 3.7.0" className="mt-1" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label>Changes (one per line)</Label>
+                    <Textarea
+                      value={newChangelogChanges}
+                      onChange={(e) => setNewChangelogChanges(e.target.value)}
+                      placeholder={"Added new feature X\nFixed bug with Y\nImproved performance of Z"}
+                      className="mt-1 min-h-[120px]"
+                    />
+                  </div>
+                  <Button onClick={() => createChangelog.mutate()} disabled={createChangelog.isPending} className="w-full gap-2">
+                    <Plus className="h-4 w-4" />
+                    {createChangelog.isPending ? "Creating..." : "Create Entry"}
+                  </Button>
+                </CardContent>
+              </Card>
               <ChangelogPoster />
             </TabsContent>
 
