@@ -33,6 +33,7 @@ const Admin = () => {
   const queryClient = useQueryClient();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [userSearch, setUserSearch] = useState("");
   const [banUserId, setBanUserId] = useState("");
   const [banReason, setBanReason] = useState("");
@@ -40,6 +41,9 @@ const Admin = () => {
   const [banDialogOpen, setBanDialogOpen] = useState(false);
   const [ipBanAddress, setIpBanAddress] = useState("");
   const [ipBanReason, setIpBanReason] = useState("");
+  const [newChangelogType, setNewChangelogType] = useState("update");
+  const [newChangelogVersion, setNewChangelogVersion] = useState("");
+  const [newChangelogChanges, setNewChangelogChanges] = useState("");
 
   useEffect(() => {
     const checkAdmin = async () => {
