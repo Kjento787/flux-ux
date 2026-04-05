@@ -443,6 +443,7 @@ const Admin = () => {
               <TabsTrigger value="discord" className="gap-1.5"><Send className="h-4 w-4" /> Discord</TabsTrigger>
               <TabsTrigger value="changelog" className="gap-1.5"><Globe className="h-4 w-4" /> Changelog</TabsTrigger>
               <TabsTrigger value="activity" className="gap-1.5"><Activity className="h-4 w-4" /> Activity</TabsTrigger>
+              {isDev && <TabsTrigger value="dev" className="gap-1.5"><Code className="h-4 w-4" /> Dev</TabsTrigger>}
             </TabsList>
 
             {/* USERS TAB */}
