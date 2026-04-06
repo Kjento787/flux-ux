@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   User, Clock, Bookmark, Trash2, Play, Settings, Loader2,
-  Film, Tv, Star, Edit3, Grid3X3, LayoutList, Users, ArrowRight,
-  Trophy, Palette, Activity, Sparkles, ChevronRight, Bell, Users as UsersIcon,
+  Film, Tv, Star, Grid3X3, LayoutList, Users,
+  Trophy, Activity, ChevronRight,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -21,16 +21,17 @@ import { WatchStatsDashboard } from "@/components/profile/WatchStatsDashboard";
 import { ActivityFeed } from "@/components/profile/ActivityFeed";
 import { AchievementsBadges } from "@/components/profile/AchievementsBadges";
 import { GenreTasteProfile } from "@/components/profile/GenreTasteProfile";
-import { AuroraBackground, OrbitalRings } from "@/components/effects/ParticleField";
 import { getContinueWatching, removeWatchProgress, WatchProgress } from "@/lib/watchHistory";
 import { getImageUrl, fetchMovieDetails, fetchTVDetails } from "@/lib/tmdb";
 import { useProfile } from "@/hooks/useProfile";
 import { useWatchlist } from "@/hooks/useWatchlist";
+import { useAchievementChecker } from "@/hooks/useAchievementChecker";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { PageTransition } from "@/components/PageTransition";
+import { Progress } from "@/components/ui/progress";
 
 interface WatchlistItemWithDetails {
   id: string;
@@ -45,17 +46,17 @@ interface WatchlistItemWithDetails {
 
 const SectionHeader = ({ icon, title }: { icon: React.ReactNode; title: string }) => (
   <div className="flex items-center gap-2 mb-4">
-    <div className="p-2 rounded-xl bg-primary/10 text-primary">{icon}</div>
-    <h2 className="text-lg font-bold font-display">{title}</h2>
+    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">{icon}</div>
+    <h2 className="text-base font-semibold">{title}</h2>
   </div>
 );
 
 const EmptyState = ({ icon: Icon, title, description }: { icon: any; title: string; description: string }) => (
-  <div className="text-center py-16 glass-holo rounded-2xl">
-    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center">
-      <Icon className="h-8 w-8 text-primary/60" />
+  <div className="text-center py-16 rounded-xl border border-border/50 bg-card/50">
+    <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-primary/10 flex items-center justify-center">
+      <Icon className="h-7 w-7 text-primary/60" />
     </div>
-    <h3 className="font-bold text-lg mb-2">{title}</h3>
+    <h3 className="font-semibold text-base mb-1">{title}</h3>
     <p className="text-muted-foreground text-sm max-w-xs mx-auto">{description}</p>
   </div>
 );
@@ -64,6 +65,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { profile, loading: profileLoading, userId } = useProfile();
   const { watchlist, isLoading: watchlistLoading, removeFromWatchlist } = useWatchlist();
+  const { trackActivity, syncStats } = useAchievementChecker();
   const [continueWatching, setContinueWatching] = useState<WatchProgress[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -78,9 +80,27 @@ const Profile = () => {
     checkAuth();
   }, [navigate]);
 
+  // Track daily activity and sync stats on profile load
+  useEffect(() => {
+    if (isAuthenticated && userId) {
+      trackActivity();
+      syncStats();
+    }
+  }, [isAuthenticated, userId, trackActivity, syncStats]);
+
   useEffect(() => {
     setContinueWatching(getContinueWatching());
   }, []);
+
+  // Fetch user XP for the header
+  const { data: userXp } = useQuery({
+    queryKey: ["user-xp-header", userId],
+    queryFn: async () => {
+      const { data } = await supabase.from("user_xp").select("*").eq("user_id", userId!).maybeSingle();
+      return data;
+    },
+    enabled: !!userId,
+  });
 
   const { data: watchlistWithDetails = [], isLoading: detailsLoading } = useQuery({
     queryKey: ["watchlist-details", watchlist],
@@ -125,6 +145,11 @@ const Profile = () => {
     ? new Date(profile.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
     : "";
 
+  const level = userXp?.level || 1;
+  const totalXp = userXp?.total_xp || 0;
+  const xpInLevel = totalXp % 100;
+  const streak = userXp?.current_streak || 0;
+
   if (!isAuthenticated) return null;
 
   const isWatchlistLoading = watchlistLoading || detailsLoading;
@@ -134,43 +159,50 @@ const Profile = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
 
-        {/* ===== Profile Hero with Holographic Effects ===== */}
-        <section className="relative pt-20 pb-12 overflow-hidden">
-          {/* Holographic background effects */}
-          <AuroraBackground />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
-          <div className="absolute top-0 left-1/3 w-[600px] h-[300px] rounded-full bg-holo-violet/10 blur-[100px] animate-pulse-glow" />
-          <div className="absolute top-10 right-1/4 w-[400px] h-[200px] rounded-full bg-holo-cyan/10 blur-[80px] animate-pulse-glow" style={{ animationDelay: "1s" }} />
+        {/* ===== Profile Hero ===== */}
+        <section className="relative pt-20 pb-8 border-b border-border/30">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
 
           <div className="relative container mx-auto px-4 md:px-8 lg:px-12 pt-8">
-            <div className="flex flex-col md:flex-row items-start gap-6">
-              {/* Avatar with holographic ring */}
+            <div className="flex flex-col sm:flex-row items-start gap-5">
+              {/* Avatar */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="relative group flex-shrink-0"
+                className="relative flex-shrink-0"
               >
-                <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-holo-violet via-holo-cyan to-holo-magenta blur-xl opacity-40 animate-spin-slow" />
-                <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-primary/40 to-holo-cyan/30 animate-pulse" />
-                <Avatar className="relative w-28 h-28 md:w-36 md:h-36 border-2 border-primary/30 ring-4 ring-background">
+                <div className="absolute -inset-1 rounded-full bg-primary/20 blur-md" />
+                <Avatar className="relative w-24 h-24 md:w-28 md:h-28 border-2 border-primary/30">
                   <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
-                  <AvatarFallback className="bg-surface-2 text-4xl font-black font-display text-gradient">
-                    {profile?.display_name?.[0]?.toUpperCase() || <User className="h-14 w-14" />}
+                  <AvatarFallback className="bg-card text-2xl font-bold text-primary">
+                    {profile?.display_name?.[0]?.toUpperCase() || <User className="h-10 w-10" />}
                   </AvatarFallback>
                 </Avatar>
               </motion.div>
 
               {/* Info */}
-              <div className="flex-1 space-y-3">
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                  <h1 className="text-3xl md:text-4xl font-black font-display leading-tight text-gradient-aurora">
+              <div className="flex-1 space-y-2">
+                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                  <h1 className="text-2xl md:text-3xl font-bold">
                     {profile?.display_name || "My Profile"}
                   </h1>
                   {profile?.bio && (
-                    <p className="text-muted-foreground mt-1 max-w-xl line-clamp-2">{profile.bio}</p>
+                    <p className="text-muted-foreground text-sm mt-1 max-w-xl line-clamp-2">{profile.bio}</p>
                   )}
-                  <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground/60">
+                  <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
                     {memberSince && <span>Member since {memberSince}</span>}
+                    <span className="flex items-center gap-1 text-primary font-medium">
+                      <Trophy className="h-3 w-3" /> Level {level}
+                    </span>
+                    {streak > 0 && (
+                      <span className="flex items-center gap-1">🔥 {streak} day streak</span>
+                    )}
+                  </div>
+                  {/* XP progress bar */}
+                  <div className="flex items-center gap-2 mt-2 max-w-xs">
+                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">{xpInLevel}/100 XP</span>
+                    <Progress value={xpInLevel} className="h-1.5 flex-1" />
+                    <span className="text-[10px] text-muted-foreground">Lv {level + 1}</span>
                   </div>
                 </motion.div>
 
@@ -180,16 +212,15 @@ const Profile = () => {
                   </motion.div>
                 )}
 
-                {/* Action Buttons */}
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex flex-wrap gap-2 pt-1">
                   <Link to="/profiles">
-                    <Button variant="outline" size="sm" className="rounded-full gap-2 border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all">
-                      <Users className="h-3.5 w-3.5" />
+                    <Button variant="outline" size="sm" className="rounded-full gap-1.5 text-xs border-border/50 hover:border-primary/40 hover:bg-primary/5">
+                      <Users className="h-3 w-3" />
                       Switch Profile
                     </Button>
                   </Link>
-                  <Button variant="outline" size="sm" className="rounded-full gap-2 border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all" onClick={() => setActiveTab("settings")}>
-                    <Settings className="h-3.5 w-3.5" />
+                  <Button variant="outline" size="sm" className="rounded-full gap-1.5 text-xs border-border/50 hover:border-primary/40 hover:bg-primary/5" onClick={() => setActiveTab("settings")}>
+                    <Settings className="h-3 w-3" />
                     Edit Profile
                   </Button>
                 </motion.div>
@@ -199,65 +230,61 @@ const Profile = () => {
         </section>
 
         {/* ===== Main Content ===== */}
-        <main className="container mx-auto px-4 md:px-8 lg:px-12 pb-16 space-y-8">
+        <main className="container mx-auto px-4 md:px-8 lg:px-12 py-6 pb-16 space-y-6">
           <DiscordLinkBanner />
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="glass-strong h-12 p-1.5 rounded-2xl w-full sm:w-auto flex-wrap">
-              <TabsTrigger value="overview" className="gap-1.5 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-holo-indigo data-[state=active]:text-primary-foreground data-[state=active]:shadow-neon text-xs font-medium transition-all">
+            <TabsList className="bg-card/80 border border-border/50 h-10 p-1 rounded-lg w-full sm:w-auto">
+              <TabsTrigger value="overview" className="gap-1.5 px-3 rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs font-medium">
                 <Activity className="h-3.5 w-3.5" />
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="continue" className="gap-1.5 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-holo-indigo data-[state=active]:text-primary-foreground data-[state=active]:shadow-neon text-xs font-medium transition-all">
+              <TabsTrigger value="continue" className="gap-1.5 px-3 rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs font-medium">
                 <Clock className="h-3.5 w-3.5" />
                 Continue
-                <Badge variant="secondary" className="ml-1 text-[10px] h-4 px-1.5 bg-holo-cyan/20 text-holo-cyan border-0">{continueWatching.length}</Badge>
+                <Badge variant="secondary" className="ml-1 text-[10px] h-4 px-1.5">{continueWatching.length}</Badge>
               </TabsTrigger>
-              <TabsTrigger value="watchlist" className="gap-1.5 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-holo-indigo data-[state=active]:text-primary-foreground data-[state=active]:shadow-neon text-xs font-medium transition-all">
+              <TabsTrigger value="watchlist" className="gap-1.5 px-3 rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs font-medium">
                 <Bookmark className="h-3.5 w-3.5" />
                 My List
-                {!isWatchlistLoading && <Badge variant="secondary" className="ml-1 text-[10px] h-4 px-1.5 bg-holo-cyan/20 text-holo-cyan border-0">{watchlistWithDetails.length}</Badge>}
+                {!isWatchlistLoading && <Badge variant="secondary" className="ml-1 text-[10px] h-4 px-1.5">{watchlistWithDetails.length}</Badge>}
               </TabsTrigger>
-              <TabsTrigger value="settings" className="gap-1.5 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-holo-indigo data-[state=active]:text-primary-foreground data-[state=active]:shadow-neon text-xs font-medium transition-all">
+              <TabsTrigger value="settings" className="gap-1.5 px-3 rounded-md data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs font-medium">
                 <Settings className="h-3.5 w-3.5" />
                 Settings
               </TabsTrigger>
             </TabsList>
 
             {/* ===== OVERVIEW TAB ===== */}
-            <TabsContent value="overview" className="space-y-8">
-              {/* Stats Dashboard */}
+            <TabsContent value="overview" className="space-y-6">
               <section>
                 <SectionHeader icon={<Activity className="h-4 w-4" />} title="Your Stats" />
-                <WatchStatsDashboard />
+                <WatchStatsDashboard userId={userId || undefined} />
               </section>
 
-              {/* Two-column layout: Activity + Genres */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <section>
                   <SectionHeader icon={<Clock className="h-4 w-4" />} title="Recent Activity" />
-                  <div className="mt-3 max-h-[400px] overflow-y-auto pr-1 scrollbar-thin glass-holo rounded-2xl p-4">
+                  <div className="max-h-[400px] overflow-y-auto pr-1 rounded-xl border border-border/30 bg-card/30 p-4">
                     <ActivityFeed />
                   </div>
                 </section>
 
                 <section>
-                  <SectionHeader icon={<Palette className="h-4 w-4" />} title="Your Taste" />
-                  <div className="mt-3 glass-holo rounded-2xl p-4">
+                  <SectionHeader icon={<ChevronRight className="h-4 w-4" />} title="Your Taste" />
+                  <div className="rounded-xl border border-border/30 bg-card/30 p-4">
                     <GenreTasteProfile />
                   </div>
                 </section>
               </div>
 
-              {/* Achievements */}
               <section>
                 <SectionHeader icon={<Trophy className="h-4 w-4" />} title="Achievements" />
-                <div className="mt-3 glass-holo rounded-2xl p-4">
-                  <AchievementsBadges />
+                <div className="rounded-xl border border-border/30 bg-card/30 p-4">
+                  <AchievementsBadges userId={userId || undefined} />
                 </div>
               </section>
 
-              {/* Recommendations */}
               <section>
                 <Recommendations />
               </section>
@@ -272,13 +299,13 @@ const Profile = () => {
                   {continueWatching.map((item, i) => (
                     <motion.div
                       key={item.movieId}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="flex gap-4 p-4 rounded-2xl glass-holo hover:shadow-hover transition-all group"
+                      transition={{ delay: i * 0.04 }}
+                      className="flex gap-4 p-3 rounded-xl border border-border/30 bg-card/50 hover:border-primary/20 transition-all group"
                     >
                       <Link to={`/movie/${item.movieId}`} className="flex-shrink-0">
-                        <div className="w-32 md:w-40 aspect-video rounded-xl overflow-hidden bg-surface-2 relative">
+                        <div className="w-32 md:w-40 aspect-video rounded-lg overflow-hidden bg-secondary relative">
                           {item.backdropPath ? (
                             <img src={getImageUrl(item.backdropPath, "w300")} alt={item.title} className="w-full h-full object-cover" />
                           ) : item.posterPath ? (
@@ -287,33 +314,33 @@ const Profile = () => {
                             <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">No Image</div>
                           )}
                           <div className="absolute inset-0 bg-background/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Play className="h-10 w-10 text-foreground fill-current" />
+                            <Play className="h-8 w-8 text-foreground fill-current" />
                           </div>
-                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-surface-3">
-                            <div className="h-full bg-gradient-to-r from-primary to-holo-cyan rounded-full" style={{ width: `${item.progress}%` }} />
+                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-secondary">
+                            <div className="h-full bg-primary rounded-full" style={{ width: `${item.progress}%` }} />
                           </div>
                         </div>
                       </Link>
                       <div className="flex-1 min-w-0 flex flex-col justify-center">
                         <Link to={`/movie/${item.movieId}`}>
-                          <h3 className="font-bold text-lg hover:text-primary transition-colors line-clamp-1">{item.title}</h3>
+                          <h3 className="font-semibold hover:text-primary transition-colors line-clamp-1">{item.title}</h3>
                         </Link>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+                        <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
                           <span>{formatTime(item.currentTime)} watched</span>
                           <span>•</span>
-                          <span>{Math.round(item.progress)}% complete</span>
+                          <span>{Math.round(item.progress)}%</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <Link to={`/movie/${item.movieId}`}>
-                          <Button className="rounded-xl gap-2 btn-holo">
-                            <Play className="h-4 w-4 fill-current" />
+                          <Button size="sm" className="rounded-lg gap-1.5">
+                            <Play className="h-3.5 w-3.5 fill-current" />
                             Resume
                           </Button>
                         </Link>
-                        <Button size="icon" variant="ghost" className="h-10 w-10 text-muted-foreground hover:text-destructive rounded-xl"
+                        <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-destructive rounded-lg"
                           onClick={() => handleRemoveProgress(item.movieId)}>
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-3.5 w-3.5" />
                         </Button>
                       </div>
                     </motion.div>
@@ -326,115 +353,114 @@ const Profile = () => {
             <TabsContent value="watchlist" className="space-y-4">
               {isWatchlistLoading ? (
                 <div className="flex justify-center py-20">
-                  <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : watchlistWithDetails.length === 0 ? (
                 <EmptyState icon={Bookmark} title="Your list is empty" description="Save movies and TV shows to your list to watch them later." />
               ) : (
                 <>
-                  <div className="flex justify-end gap-2">
+                  <div className="flex justify-end gap-1">
                     <Button variant="ghost" size="icon" onClick={() => setViewMode("grid")}
-                      className={cn("h-9 w-9 rounded-xl", viewMode === "grid" && "bg-primary/10 text-primary")}>
+                      className={cn("h-8 w-8 rounded-lg", viewMode === "grid" && "bg-primary/10 text-primary")}>
                       <Grid3X3 className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" onClick={() => setViewMode("list")}
-                      className={cn("h-9 w-9 rounded-xl", viewMode === "list" && "bg-primary/10 text-primary")}>
+                      className={cn("h-8 w-8 rounded-lg", viewMode === "list" && "bg-primary/10 text-primary")}>
                       <LayoutList className="h-4 w-4" />
                     </Button>
                   </div>
 
                   {viewMode === "grid" ? (
-                    <motion.div initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                       {watchlistWithDetails.map((item, i) => (
-                        <motion.div key={item.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="group relative">
+                        <motion.div key={item.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }} className="group relative">
                           <Link to={item.content_type === "tv" ? `/tv/${item.content_id}` : `/movie/${item.content_id}`}
-                            className="block rounded-2xl overflow-hidden glass transition-all hover:scale-105 hover:shadow-hover card-3d">
+                            className="block rounded-lg overflow-hidden border border-border/30 transition-all hover:border-primary/30 hover:scale-[1.02]">
                             <div className="aspect-[2/3] relative">
                               {item.poster_path ? (
                                 <img src={getImageUrl(item.poster_path, "w300")} alt={item.title} className="w-full h-full object-cover" />
                               ) : (
-                                <div className="w-full h-full bg-surface-2 flex items-center justify-center text-xs text-muted-foreground">No Image</div>
+                                <div className="w-full h-full bg-secondary flex items-center justify-center text-xs text-muted-foreground">No Image</div>
                               )}
                               <div className="absolute top-2 left-2">
-                                <Badge className={cn("text-xs border-0", item.content_type === "tv" ? "bg-holo-cyan/80" : "bg-primary/80")}>
-                                  {item.content_type === "tv" ? <Tv className="h-3 w-3 mr-1" /> : <Film className="h-3 w-3 mr-1" />}
+                                <Badge className={cn("text-[10px] border-0", item.content_type === "tv" ? "bg-accent text-accent-foreground" : "bg-primary/80 text-primary-foreground")}>
                                   {item.content_type === "tv" ? "TV" : "Movie"}
                                 </Badge>
                               </div>
                               {item.vote_average && (
-                                <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-background/80 backdrop-blur-sm text-xs">
-                                  <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
+                                <div className="absolute top-2 right-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-background/80 backdrop-blur-sm text-[10px]">
+                                  <Star className="h-2.5 w-2.5 text-primary fill-primary" />
                                   {item.vote_average.toFixed(1)}
                                 </div>
                               )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                                <Button size="sm" className="w-full btn-holo gap-2">
-                                  <Play className="h-4 w-4 fill-current" /> Watch
+                              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                                <Button size="sm" className="w-full gap-1 text-xs h-7">
+                                  <Play className="h-3 w-3 fill-current" /> Watch
                                 </Button>
                               </div>
                             </div>
                           </Link>
-                          <div className="mt-2 px-1">
-                            <p className="font-medium text-sm line-clamp-1">{item.title}</p>
-                            <p className="text-xs text-muted-foreground">{item.year}</p>
+                          <div className="mt-1.5 px-0.5">
+                            <p className="font-medium text-xs line-clamp-1">{item.title}</p>
+                            <p className="text-[10px] text-muted-foreground">{item.year}</p>
                           </div>
                           <Button
                             size="icon"
                             variant="ghost"
-                            className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:bg-destructive hover:text-destructive-foreground rounded-lg"
+                            className="absolute top-1.5 right-1.5 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:bg-destructive hover:text-destructive-foreground rounded-md"
                             onClick={(e) => { e.preventDefault(); handleRemoveFromList(item.content_id, item.content_type); }}
                           >
                             <Trash2 className="h-3 w-3" />
                           </Button>
                         </motion.div>
                       ))}
-                    </motion.div>
+                    </div>
                   ) : (
-                    <div className="grid gap-3">
+                    <div className="grid gap-2">
                       {watchlistWithDetails.map((item, i) => (
                         <motion.div
                           key={item.id}
-                          initial={{ opacity: 0, x: -20 }}
+                          initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.05 }}
-                          className="flex gap-4 p-4 rounded-2xl glass-holo hover:shadow-hover transition-all group"
+                          transition={{ delay: i * 0.03 }}
+                          className="flex gap-3 p-3 rounded-xl border border-border/30 bg-card/50 hover:border-primary/20 transition-all group"
                         >
                           <Link to={item.content_type === "tv" ? `/tv/${item.content_id}` : `/movie/${item.content_id}`} className="flex-shrink-0">
-                            <div className="w-20 aspect-[2/3] rounded-xl overflow-hidden bg-surface-2">
+                            <div className="w-16 aspect-[2/3] rounded-lg overflow-hidden bg-secondary">
                               {item.poster_path ? (
                                 <img src={getImageUrl(item.poster_path, "w200")} alt={item.title} className="w-full h-full object-cover" />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">No Image</div>
+                                <div className="w-full h-full flex items-center justify-center text-[10px] text-muted-foreground">No Image</div>
                               )}
                             </div>
                           </Link>
                           <div className="flex-1 min-w-0 flex flex-col justify-center">
                             <Link to={item.content_type === "tv" ? `/tv/${item.content_id}` : `/movie/${item.content_id}`}>
-                              <h3 className="font-bold text-lg hover:text-primary transition-colors line-clamp-1">{item.title}</h3>
+                              <h3 className="font-semibold hover:text-primary transition-colors line-clamp-1">{item.title}</h3>
                             </Link>
-                            <div className="flex items-center gap-3 mt-1">
-                              <Badge className={cn("text-xs border-0", item.content_type === "tv" ? "bg-holo-cyan/20 text-holo-cyan" : "bg-primary/20 text-primary")}>
-                                {item.content_type === "tv" ? "TV Series" : "Movie"}
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                                {item.content_type === "tv" ? "TV" : "Movie"}
                               </Badge>
-                              {item.year && <span className="text-sm text-muted-foreground">{item.year}</span>}
+                              {item.year && <span className="text-xs text-muted-foreground">{item.year}</span>}
                               {item.vote_average && (
-                                <span className="text-sm flex items-center gap-1">
-                                  <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
+                                <span className="text-xs flex items-center gap-0.5">
+                                  <Star className="h-3 w-3 text-primary fill-primary" />
                                   {item.vote_average.toFixed(1)}
                                 </span>
                               )}
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <Link to={item.content_type === "tv" ? `/tv/${item.content_id}` : `/movie/${item.content_id}`}>
-                              <Button className="rounded-xl gap-2 btn-holo">
-                                <Play className="h-4 w-4 fill-current" />
+                              <Button size="sm" className="rounded-lg gap-1.5 h-8">
+                                <Play className="h-3.5 w-3.5 fill-current" />
                                 Watch
                               </Button>
                             </Link>
-                            <Button size="icon" variant="ghost" className="h-10 w-10 text-muted-foreground hover:text-destructive rounded-xl"
+                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-destructive rounded-lg"
                               onClick={() => handleRemoveFromList(item.content_id, item.content_type)}>
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-3.5 w-3.5" />
                             </Button>
                           </div>
                         </motion.div>
@@ -446,14 +472,14 @@ const Profile = () => {
             </TabsContent>
 
             {/* ===== SETTINGS TAB ===== */}
-            <TabsContent value="settings" className="space-y-6">
-              <div className="glass-holo rounded-2xl p-6">
+            <TabsContent value="settings" className="space-y-4">
+              <div className="rounded-xl border border-border/30 bg-card/50 p-5">
                 <ProfileSettings />
               </div>
-              <div className="glass-holo rounded-2xl p-6">
+              <div className="rounded-xl border border-border/30 bg-card/50 p-5">
                 <NotificationPreferences />
               </div>
-              <div className="glass-holo rounded-2xl p-6">
+              <div className="rounded-xl border border-border/30 bg-card/50 p-5">
                 <SharedWatchlists />
               </div>
             </TabsContent>
