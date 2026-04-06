@@ -27,10 +27,10 @@ interface UserAchievement {
 }
 
 const TIER_STYLES: Record<string, string> = {
-  bronze: "from-orange-900/30 to-orange-800/10 border-orange-700/30",
-  silver: "from-gray-600/30 to-gray-500/10 border-gray-500/30",
-  gold: "from-yellow-900/30 to-yellow-800/10 border-yellow-600/30",
-  platinum: "from-cyan-900/30 to-cyan-800/10 border-cyan-600/30",
+  bronze: "from-primary/10 to-primary/5 border-primary/20",
+  silver: "from-muted/30 to-muted/10 border-border/40",
+  gold: "from-primary/20 to-primary/10 border-primary/30",
+  platinum: "from-primary/30 to-primary/15 border-primary/40",
 };
 
 export const AchievementsBadges = ({ userId }: { userId?: string }) => {
