@@ -160,19 +160,12 @@ const Profile = () => {
         <Navbar />
 
         {/* ===== Profile Hero ===== */}
-        <section className="relative pt-20 pb-8 border-b border-border/30">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-
-          <div className="relative container mx-auto px-4 md:px-8 lg:px-12 pt-8">
+        <section className="pt-24 pb-8 border-b border-border/30">
+          <div className="container mx-auto px-4 md:px-8 lg:px-12">
             <div className="flex flex-col sm:flex-row items-start gap-5">
               {/* Avatar */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="relative flex-shrink-0"
-              >
-                <div className="absolute -inset-1 rounded-full bg-primary/20 blur-md" />
-                <Avatar className="relative w-24 h-24 md:w-28 md:h-28 border-2 border-primary/30">
+              <div className="flex-shrink-0">
+                <Avatar className="w-20 h-20 border-2 border-border/50">
                   <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
                   <AvatarFallback className="bg-card text-2xl font-bold text-primary">
                     {profile?.display_name?.[0]?.toUpperCase() || <User className="h-10 w-10" />}
