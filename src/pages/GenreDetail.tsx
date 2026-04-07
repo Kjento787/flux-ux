@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMoviesByGenre, fetchGenres, Movie } from "@/lib/tmdb";
+import { fetchMoviesByGenre, fetchGenres } from "@/lib/tmdb";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { MovieCard } from "@/components/MovieCard";
 import { PageTransition } from "@/components/PageTransition";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, LayoutGrid } from "lucide-react";
-import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const GenreDetail = () => {
@@ -33,53 +32,36 @@ const GenreDetail = () => {
     <PageTransition>
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="container mx-auto px-4 pt-24 pb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="p-3 rounded-2xl bg-primary/10">
-              <LayoutGrid className="h-8 w-8 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold font-display">{genreName}</h1>
-              <p className="text-muted-foreground">
-                {moviesData?.total_results
-                  ? `${moviesData.total_results.toLocaleString()} titles`
-                  : "Discover films in this genre"}
-              </p>
-            </div>
+        <main className="container mx-auto px-4 md:px-8 lg:px-12 pt-24 pb-16">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold">{genreName}</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {moviesData?.total_results
+                ? `${moviesData.total_results.toLocaleString()} titles`
+                : "Discover films in this genre"}
+            </p>
           </div>
 
           {isLoading ? (
             <div className="flex justify-center py-16">
-              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary" />
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary" />
             </div>
           ) : (
             <>
-              <motion.div
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
-                initial="hidden"
-                animate="visible"
-                variants={{ visible: { transition: { staggerChildren: 0.03 } } }}
-              >
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                 {moviesData?.results.map((movie) => (
-                  <motion.div
-                    key={movie.id}
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-                    }}
-                  >
-                    <MovieCard movie={movie} />
-                  </motion.div>
+                  <MovieCard key={movie.id} movie={movie} />
                 ))}
-              </motion.div>
+              </div>
 
               {moviesData && moviesData.total_pages > 1 && (
                 <div className="flex items-center justify-center gap-3 mt-12">
                   <Button
                     variant="outline"
+                    size="sm"
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="rounded-xl gap-2"
+                    className="gap-1.5"
                   >
                     <ChevronLeft className="h-4 w-4" /> Previous
                   </Button>
@@ -88,9 +70,10 @@ const GenreDetail = () => {
                   </span>
                   <Button
                     variant="outline"
+                    size="sm"
                     onClick={() => setPage((p) => p + 1)}
                     disabled={page >= Math.min(moviesData.total_pages, 500)}
-                    className="rounded-xl gap-2"
+                    className="gap-1.5"
                   >
                     Next <ChevronRight className="h-4 w-4" />
                   </Button>
