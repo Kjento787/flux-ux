@@ -14,8 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
-import { Plus, Users, PartyPopper, Play, Link as LinkIcon, Film, Search } from "lucide-react";
+import { Plus, PartyPopper, Play, Link as LinkIcon, Film } from "lucide-react";
 
 const WatchParties = () => {
   const navigate = useNavigate();
@@ -38,9 +37,7 @@ const WatchParties = () => {
     queryKey: ["my-watch-parties", userId],
     queryFn: async () => {
       const { data } = await supabase
-        .from("watch_parties")
-        .select("*")
-        .eq("is_active", true)
+        .from("watch_parties").select("*").eq("is_active", true)
         .order("created_at", { ascending: false });
       return data || [];
     },
@@ -89,50 +86,35 @@ const WatchParties = () => {
     <PageTransition>
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="container mx-auto px-4 pt-24 pb-12">
+        <main className="container mx-auto px-4 pt-24 pb-16">
           <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <div className="p-3 rounded-2xl bg-primary/10">
-                <PartyPopper className="h-8 w-8 text-primary" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold">Watch Parties</h1>
-                <p className="text-muted-foreground">Watch together with friends in real-time</p>
-              </div>
+            <div>
+              <h1 className="text-2xl font-bold">Watch Parties</h1>
+              <p className="text-sm text-muted-foreground mt-1">Watch together with friends in real-time</p>
             </div>
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="gap-2 rounded-xl">
+                <Button size="sm" className="gap-1.5">
                   <Plus className="h-4 w-4" /> Create Party
                 </Button>
               </DialogTrigger>
-              <DialogContent className="glass-strong border-border/30 max-w-lg">
+              <DialogContent className="border-border/30 max-w-lg">
                 <DialogHeader>
                   <DialogTitle>Create Watch Party</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 mt-4">
                   <div>
-                    <Label>Party Name</Label>
-                    <Input
-                      value={newTitle}
-                      onChange={(e) => setNewTitle(e.target.value)}
-                      placeholder="Movie night with friends"
-                      className="mt-1"
-                    />
+                    <Label className="text-xs">Party Name</Label>
+                    <Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="Movie night with friends" className="mt-1" />
                   </div>
                   <div>
-                    <Label>Pick a Movie or Show</Label>
-                    <Input
-                      value={movieSearch}
-                      onChange={(e) => setMovieSearch(e.target.value)}
-                      placeholder="Search movies & TV shows..."
-                      className="mt-1"
-                    />
+                    <Label className="text-xs">Pick a Movie or Show</Label>
+                    <Input value={movieSearch} onChange={(e) => setMovieSearch(e.target.value)} placeholder="Search..." className="mt-1" />
                     {selectedMovie && (
-                      <div className="mt-2 flex items-center gap-3 p-2 rounded-xl bg-primary/5 border border-primary/20">
+                      <div className="mt-2 flex items-center gap-3 p-2 rounded-lg bg-primary/5 border border-primary/20">
                         {selectedMovie.poster_path && (
-                          <img src={getImageUrl(selectedMovie.poster_path, "w200")} className="w-10 h-14 rounded-lg object-cover" />
+                          <img src={getImageUrl(selectedMovie.poster_path, "w200")} className="w-10 h-14 rounded object-cover" />
                         )}
                         <div>
                           <p className="text-sm font-medium">{selectedMovie.title || selectedMovie.name}</p>
@@ -145,7 +127,7 @@ const WatchParties = () => {
                         {searchResults.map((result: any) => (
                           <div
                             key={`${result.media_type}-${result.id}`}
-                            className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-1/50 cursor-pointer transition-colors"
+                            className="flex items-center gap-3 p-2 rounded-lg hover:bg-card cursor-pointer transition-colors"
                             onClick={() => {
                               setSelectedMovie(result);
                               if (!newTitle.trim()) setNewTitle(result.title || result.name || "");
@@ -153,9 +135,9 @@ const WatchParties = () => {
                             }}
                           >
                             {result.poster_path ? (
-                              <img src={getImageUrl(result.poster_path, "w200")} className="w-10 h-14 rounded-lg object-cover" />
+                              <img src={getImageUrl(result.poster_path, "w200")} className="w-10 h-14 rounded object-cover" />
                             ) : (
-                              <div className="w-10 h-14 rounded-lg bg-surface-2 flex items-center justify-center">
+                              <div className="w-10 h-14 rounded bg-muted flex items-center justify-center">
                                 <Film className="h-4 w-4 text-muted-foreground" />
                               </div>
                             )}
@@ -168,11 +150,7 @@ const WatchParties = () => {
                       </div>
                     </ScrollArea>
                   </div>
-                  <Button
-                    onClick={() => createParty.mutate()}
-                    disabled={!newTitle.trim() || createParty.isPending}
-                    className="w-full"
-                  >
+                  <Button onClick={() => createParty.mutate()} disabled={!newTitle.trim() || createParty.isPending} className="w-full">
                     {createParty.isPending ? "Creating..." : "Create Party"}
                   </Button>
                 </div>
@@ -180,77 +158,52 @@ const WatchParties = () => {
             </Dialog>
           </div>
 
-          {/* Join with code */}
           <Card className="border-border/30 bg-card/50 mb-8">
-            <CardContent className="flex items-center gap-3 py-4">
-              <LinkIcon className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-              <Input
-                value={joinCode}
-                onChange={(e) => setJoinCode(e.target.value)}
-                placeholder="Enter invite code to join..."
-                className="flex-1"
-                onKeyDown={(e) => e.key === "Enter" && joinParty()}
-              />
-              <Button onClick={joinParty} disabled={!joinCode.trim()} variant="outline">
-                Join
-              </Button>
+            <CardContent className="flex items-center gap-3 py-3 px-4">
+              <LinkIcon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <Input value={joinCode} onChange={(e) => setJoinCode(e.target.value)} placeholder="Enter invite code to join..." className="flex-1" onKeyDown={(e) => e.key === "Enter" && joinParty()} />
+              <Button onClick={joinParty} disabled={!joinCode.trim()} variant="outline" size="sm">Join</Button>
             </CardContent>
           </Card>
 
-          {/* Active parties */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {parties.map((party: any, i: number) => (
-              <motion.div
+            {parties.map((party: any) => (
+              <Card
                 key={party.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
+                className="border-border/30 bg-card/50 hover:border-primary/20 transition-colors cursor-pointer overflow-hidden"
+                onClick={() => navigate(`/party/${party.id}`)}
               >
-                <Card
-                  className="border-border/30 bg-card/50 hover:border-primary/30 transition-all cursor-pointer overflow-hidden"
-                  onClick={() => navigate(`/party/${party.id}`)}
-                >
-                  {party.poster_path && (
-                    <div className="h-32 relative overflow-hidden">
-                      <img src={getImageUrl(party.poster_path, "w500")} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                {party.poster_path && (
+                  <div className="h-28 relative overflow-hidden">
+                    <img src={getImageUrl(party.poster_path, "w500")} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                  </div>
+                )}
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 className="font-medium text-sm">{party.title}</h3>
+                      <p className="text-xs text-muted-foreground">{new Date(party.created_at).toLocaleDateString()}</p>
                     </div>
-                  )}
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-lg bg-primary/10">
-                          <Film className="h-4 w-4 text-primary" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-sm">{party.title}</h3>
-                          <p className="text-xs text-muted-foreground">
-                            {new Date(party.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </div>
-                      <Badge variant="outline" className="text-xs gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Live
-                      </Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground">
-                        Code: {party.invite_code}
-                      </span>
-                      <Button size="sm" variant="ghost" className="h-7 text-xs gap-1">
-                        <Play className="h-3 w-3" /> Join
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                    <Badge variant="outline" className="text-[10px] gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Live
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Code: {party.invite_code}</span>
+                    <Button size="sm" variant="ghost" className="h-6 text-xs gap-1">
+                      <Play className="h-3 w-3" /> Join
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
             {parties.length === 0 && (
               <div className="col-span-full text-center py-16 text-muted-foreground">
-                <PartyPopper className="h-12 w-12 mx-auto mb-3 opacity-40" />
-                <p className="font-medium">No active parties</p>
-                <p className="text-sm mt-1">Create one or join with an invite code</p>
+                <PartyPopper className="h-10 w-10 mx-auto mb-3 opacity-40" />
+                <p className="text-sm font-medium">No active parties</p>
+                <p className="text-xs mt-1">Create one or join with an invite code</p>
               </div>
             )}
           </div>

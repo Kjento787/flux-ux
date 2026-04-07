@@ -160,30 +160,23 @@ const Profile = () => {
         <Navbar />
 
         {/* ===== Profile Hero ===== */}
-        <section className="relative pt-20 pb-8 border-b border-border/30">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-
-          <div className="relative container mx-auto px-4 md:px-8 lg:px-12 pt-8">
+        <section className="pt-24 pb-8 border-b border-border/30">
+          <div className="container mx-auto px-4 md:px-8 lg:px-12">
             <div className="flex flex-col sm:flex-row items-start gap-5">
               {/* Avatar */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="relative flex-shrink-0"
-              >
-                <div className="absolute -inset-1 rounded-full bg-primary/20 blur-md" />
-                <Avatar className="relative w-24 h-24 md:w-28 md:h-28 border-2 border-primary/30">
+              <div className="flex-shrink-0">
+                <Avatar className="w-20 h-20 border-2 border-border/50">
                   <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
                   <AvatarFallback className="bg-card text-2xl font-bold text-primary">
                     {profile?.display_name?.[0]?.toUpperCase() || <User className="h-10 w-10" />}
                   </AvatarFallback>
                 </Avatar>
-              </motion.div>
+              </div>
 
               {/* Info */}
               <div className="flex-1 space-y-2">
-                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                  <h1 className="text-2xl md:text-3xl font-bold">
+                <div>
+                  <h1 className="text-2xl font-bold">
                     {profile?.display_name || "My Profile"}
                   </h1>
                   {profile?.bio && (
@@ -198,32 +191,27 @@ const Profile = () => {
                       <span className="flex items-center gap-1">🔥 {streak} day streak</span>
                     )}
                   </div>
-                  {/* XP progress bar */}
                   <div className="flex items-center gap-2 mt-2 max-w-xs">
                     <span className="text-[10px] text-muted-foreground whitespace-nowrap">{xpInLevel}/100 XP</span>
                     <Progress value={xpInLevel} className="h-1.5 flex-1" />
                     <span className="text-[10px] text-muted-foreground">Lv {level + 1}</span>
                   </div>
-                </motion.div>
+                </div>
 
-                {userId && (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-                    <FollowStats userId={userId} />
-                  </motion.div>
-                )}
+                {userId && <FollowStats userId={userId} />}
 
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex flex-wrap gap-2 pt-1">
+                <div className="flex flex-wrap gap-2 pt-1">
                   <Link to="/profiles">
-                    <Button variant="outline" size="sm" className="rounded-full gap-1.5 text-xs border-border/50 hover:border-primary/40 hover:bg-primary/5">
+                    <Button variant="outline" size="sm" className="gap-1.5 text-xs">
                       <Users className="h-3 w-3" />
                       Switch Profile
                     </Button>
                   </Link>
-                  <Button variant="outline" size="sm" className="rounded-full gap-1.5 text-xs border-border/50 hover:border-primary/40 hover:bg-primary/5" onClick={() => setActiveTab("settings")}>
+                  <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setActiveTab("settings")}>
                     <Settings className="h-3 w-3" />
                     Edit Profile
                   </Button>
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>

@@ -17,7 +17,10 @@ const Genres = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <main className="container mx-auto px-4 pt-24 pb-16">
-          <h1 className="text-3xl font-bold text-foreground mb-8">Browse by Genre</h1>
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold">Browse by Genre</h1>
+            <p className="text-sm text-muted-foreground mt-1">Explore movies by category</p>
+          </div>
           <GenreButtons genres={genres} showAllGenres />
         </main>
         <Footer />
