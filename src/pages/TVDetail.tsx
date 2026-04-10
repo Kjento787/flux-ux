@@ -314,13 +314,10 @@ const TVDetail = () => {
         {/* Immersive Hero */}
         <section className="relative min-h-screen">
           <div className="absolute inset-0">
-            <motion.img
+            <img
               src={getImageUrl(tvShow.backdrop_path, "original")}
               alt={tvShow.name}
               className="w-full h-full object-cover"
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 8, ease: "easeOut" }}
             />
             {showPreview && trailer && (
               <div className="absolute inset-0">
@@ -332,30 +329,25 @@ const TVDetail = () => {
                 />
               </div>
             )}
-            
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
-            {/* Film grain texture */}
-            <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
           </div>
 
           <div className="relative container mx-auto px-4 md:px-8 lg:px-12 pt-32 pb-16 min-h-screen flex flex-col justify-end">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-              <Link
-                to="/"
-                className="absolute top-24 left-4 md:left-8 lg:left-12 inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors glass px-4 py-2 rounded-full"
-              >
-                <ChevronLeft className="h-4 w-4" />
-                <span className="text-sm font-medium">Back</span>
-              </Link>
-            </motion.div>
+            <Link
+              to="/"
+              className="absolute top-24 left-4 md:left-8 lg:left-12 inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors bg-card/80 backdrop-blur-sm px-4 py-2 rounded-full border border-border/30"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-sm font-medium">Back</span>
+            </Link>
 
             {showPreview && trailer && (
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute top-24 right-4 md:right-8 lg:right-12 glass rounded-full h-10 w-10"
+                className="absolute top-24 right-4 md:right-8 lg:right-12 bg-card/80 backdrop-blur-sm border border-border/30 rounded-full h-10 w-10"
                 onClick={() => setPreviewMuted(!previewMuted)}
               >
                 {previewMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
@@ -384,13 +376,9 @@ const TVDetail = () => {
                 </Badge>
               </motion.div>
 
-              <motion.h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight font-display"
-                style={{ textShadow: '0 4px 30px hsl(var(--primary) / 0.15)' }}
-                variants={fadeUp} initial="hidden" animate="visible" custom={1}
-              >
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
                 {tvShow.name}
-              </motion.h1>
+              </h1>
 
               {tvShow.tagline && (
                 <motion.p
@@ -424,7 +412,7 @@ const TVDetail = () => {
                   <Badge 
                     key={genre.id} 
                     variant="secondary" 
-                    className="px-4 py-1.5 text-sm hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_12px_hsl(var(--primary)/0.3)]"
+                    className="hover:bg-primary hover:text-primary-foreground transition-colors px-4 py-1.5 text-sm"
                   >
                     {genre.name}
                   </Badge>
@@ -440,7 +428,7 @@ const TVDetail = () => {
 
               {/* Season/Episode Selector */}
               <motion.div className="flex flex-wrap gap-4 items-center pt-2" variants={fadeUp} initial="hidden" animate="visible" custom={4.5}>
-                <div className="glass rounded-xl p-1.5 flex gap-1 overflow-x-auto hide-scrollbar max-w-full border border-border/30">
+                <div className="bg-card/50 border border-border/30 rounded-lg p-1.5 flex gap-1 overflow-x-auto hide-scrollbar max-w-full">
                   {validSeasons.slice(0, 8).map((season) => (
                     <button
                       key={season.id}
@@ -448,7 +436,7 @@ const TVDetail = () => {
                       className={cn(
                         "px-4 py-2 text-sm font-medium rounded-lg transition-all whitespace-nowrap",
                         selectedSeason === season.season_number
-                          ? "bg-primary text-primary-foreground shadow-[0_0_12px_hsl(var(--primary)/0.3)]"
+                          ? "bg-primary text-primary-foreground"
                           : "hover:bg-secondary/50"
                       )}
                     >
@@ -472,8 +460,8 @@ const TVDetail = () => {
                         className={cn(
                           "flex-shrink-0 w-12 h-12 rounded-lg font-semibold transition-all duration-200",
                           selectedEpisode === ep
-                            ? "bg-primary text-primary-foreground scale-110 shadow-[0_0_12px_hsl(var(--primary)/0.4)]"
-                            : "bg-card/50 hover:bg-card border border-border/30 hover:border-primary/30"
+                            ? "bg-primary text-primary-foreground scale-105"
+                            : "bg-card/50 hover:bg-card border border-border/30"
                         )}
                       >
                         {ep}
@@ -492,7 +480,7 @@ const TVDetail = () => {
                 <Button 
                   size="lg" 
                   onClick={handlePlay}
-                  className="h-14 px-8 text-lg font-bold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 gap-3 shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-shadow duration-300"
+                  className="h-14 px-8 text-lg font-bold rounded-lg gap-3"
                 >
                   <Play className="h-6 w-6 fill-current" />
                   S{selectedSeason} E{selectedEpisode}
@@ -503,7 +491,7 @@ const TVDetail = () => {
                     size="lg" 
                     variant="outline"
                     onClick={() => setShowTrailer(true)}
-                    className="h-14 px-8 text-lg font-semibold rounded-lg glass gap-3 border-border/50 hover:border-primary/50 transition-colors duration-300"
+                    className="h-14 px-8 text-lg font-semibold rounded-lg gap-3 border-border/30"
                   >
                     <Tv className="h-5 w-5" />
                     Trailer
@@ -516,7 +504,7 @@ const TVDetail = () => {
                     contentType="tv"
                     size="lg"
                     variant="outline"
-                    className="h-14 w-14 rounded-lg glass border-border/50 hover:border-primary/50"
+                    className="h-14 w-14 rounded-lg border-border/30"
                   />
                 )}
 
@@ -529,8 +517,8 @@ const TVDetail = () => {
                     className={cn(
                       "h-14 px-6 rounded-lg gap-2 font-semibold transition-all duration-300",
                       isFav
-                        ? "bg-primary/20 border-primary/50 text-primary hover:bg-primary/30"
-                        : "glass border-border/50 hover:border-primary/50"
+                        ? "bg-primary/20 border-primary/50 text-primary"
+                        : "border-border/30"
                     )}
                   >
                     {isFav ? <BellOff className="h-5 w-5" /> : <Bell className="h-5 w-5" />}
@@ -546,13 +534,6 @@ const TVDetail = () => {
                 </motion.div>
               )}
 
-              {/* Gold accent line */}
-              <motion.div
-                className="h-px w-24 bg-gradient-to-r from-primary/60 to-transparent"
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 96, opacity: 1 }}
-                transition={{ delay: 1.2, duration: 0.8 }}
-              />
             </div>
           </div>
         </section>
@@ -567,7 +548,7 @@ const TVDetail = () => {
         >
           <div className="container mx-auto px-4 md:px-8 lg:px-12">
             <Tabs defaultValue="cast" className="space-y-8">
-              <TabsList className="glass inline-flex h-12 p-1 rounded-xl border border-border/30">
+              <TabsList className="bg-card/50 inline-flex h-12 p-1 rounded-lg border border-border/30">
                 <TabsTrigger value="cast" className="px-6 rounded-lg data-[state=active]:bg-primary/20 data-[state=active]:text-primary">Cast</TabsTrigger>
                 <TabsTrigger value="seasons" className="px-6 rounded-lg data-[state=active]:bg-primary/20 data-[state=active]:text-primary">Seasons</TabsTrigger>
                 <TabsTrigger value="reviews" className="px-6 rounded-lg data-[state=active]:bg-primary/20 data-[state=active]:text-primary">Reviews</TabsTrigger>
@@ -585,7 +566,7 @@ const TVDetail = () => {
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.05, duration: 0.4 }}
                     >
-                      <div className="w-20 h-20 mx-auto rounded-full overflow-hidden bg-muted mb-3 ring-2 ring-border group-hover:ring-primary/60 transition-all duration-300 group-hover:shadow-[0_0_15px_hsl(var(--primary)/0.2)]">
+                      <div className="w-20 h-20 mx-auto rounded-full overflow-hidden bg-muted mb-3 ring-2 ring-border group-hover:ring-primary/50 transition-colors">
                         {person.profile_path ? (
                           <img
                             src={getImageUrl(person.profile_path, "w200")}
@@ -617,8 +598,8 @@ const TVDetail = () => {
                       className={cn(
                         "flex items-start gap-4 p-4 rounded-xl text-left transition-all",
                         selectedSeason === season.season_number
-                          ? "bg-primary/10 border-2 border-primary shadow-[0_0_15px_hsl(var(--primary)/0.15)]"
-                          : "bg-card/50 hover:bg-card border-2 border-transparent hover:border-primary/20"
+                          ? "bg-primary/10 border-2 border-primary"
+                          : "bg-card/50 hover:bg-card border-2 border-transparent hover:border-border/50"
                       )}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
