@@ -16,7 +16,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { AuroraBackground } from "@/components/effects/ParticleField";
 import {
   Users, Send, Play, Crown, LogOut, MessageSquare,
   Link as LinkIcon, PartyPopper, Sparkles, Search, Server, Film,
@@ -213,10 +212,7 @@ const WatchParty = () => {
     return (
       <PageTransition>
         <div className="min-h-screen bg-background flex items-center justify-center">
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-primary via-holo-cyan to-holo-magenta blur-xl opacity-50 animate-spin-slow" />
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent" />
-          </div>
+          <div className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>
       </PageTransition>
     );
@@ -227,15 +223,14 @@ const WatchParty = () => {
       <PageTransition>
         <div className="min-h-screen bg-background">
           <Navbar />
-          <main className="container mx-auto px-4 pt-24 pb-12 text-center relative">
-            <AuroraBackground />
-            <div className="relative z-10">
+          <main className="container mx-auto px-4 pt-24 pb-12 text-center">
+            <div>
               <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <PartyPopper className="h-10 w-10 text-primary" />
               </div>
-              <h1 className="text-2xl font-bold font-display mb-2">Party Not Found</h1>
+              <h1 className="text-2xl font-bold mb-2">Party Not Found</h1>
               <p className="text-muted-foreground mb-6">This watch party may have ended or doesn't exist.</p>
-              <Button onClick={() => navigate("/home")} className="btn-holo rounded-xl">Go Home</Button>
+              <Button onClick={() => navigate("/home")}>Go Home</Button>
             </div>
           </main>
         </div>
@@ -247,17 +242,14 @@ const WatchParty = () => {
     <PageTransition>
       <div className="min-h-screen bg-background">
         <Navbar />
-        <main className="container mx-auto px-4 pt-24 pb-12 relative">
-          <AuroraBackground />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-background pointer-events-none" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <main className="container mx-auto px-4 pt-24 pb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Main content area */}
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <h1 className="text-2xl font-bold font-display flex items-center gap-2 text-gradient-aurora">
-                    <PartyPopper className="h-6 w-6 text-holo-cyan" />
+                  <h1 className="text-2xl font-bold flex items-center gap-2">
+                    <PartyPopper className="h-6 w-6 text-primary" />
                     {party.title}
                   </h1>
                   <p className="text-muted-foreground text-sm mt-1">
@@ -265,17 +257,17 @@ const WatchParty = () => {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Button variant="outline" size="sm" onClick={copyInviteLink} className="gap-1.5 rounded-xl border-primary/20 hover:border-primary/50 hover:bg-primary/5">
+                  <Button variant="outline" size="sm" onClick={copyInviteLink} className="gap-1.5 border-border/30">
                     <LinkIcon className="h-4 w-4" /> Invite
                   </Button>
                   {isHost && (
                     <Dialog open={movieSearchOpen} onOpenChange={setMovieSearchOpen}>
                       <DialogTrigger asChild>
-                        <Button variant="outline" size="sm" className="gap-1.5 rounded-xl border-holo-cyan/20 hover:border-holo-cyan/50 hover:bg-holo-cyan/5">
+                        <Button variant="outline" size="sm" className="gap-1.5 border-border/30">
                           <Search className="h-4 w-4" /> Change Movie
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="glass-strong border-border/30 max-w-lg">
+                      <DialogContent className="bg-card border-border/30 max-w-lg">
                         <DialogHeader>
                           <DialogTitle>Search Movie or TV Show</DialogTitle>
                         </DialogHeader>
@@ -283,14 +275,14 @@ const WatchParty = () => {
                           value={movieSearch}
                           onChange={(e) => setMovieSearch(e.target.value)}
                           placeholder="Search for a movie or TV show..."
-                          className="bg-surface-2 border-border/30 rounded-xl"
+                          className="border-border/30"
                         />
                         <ScrollArea className="max-h-[400px]">
                           <div className="space-y-2">
                             {searchResults.map((result: any) => (
                               <div
                                 key={`${result.media_type}-${result.id}`}
-                                className="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-1/50 cursor-pointer transition-colors border border-transparent hover:border-primary/20"
+                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-card cursor-pointer transition-colors border border-transparent hover:border-border/30"
                                 onClick={() => changeContentMutation.mutate({
                                   contentId: result.id,
                                   contentType: result.media_type || "movie",
@@ -322,11 +314,11 @@ const WatchParty = () => {
                       </DialogContent>
                     </Dialog>
                   )}
-                  <Button variant="outline" size="sm" onClick={leaveParty} className="gap-1.5 rounded-xl border-destructive/20 hover:border-destructive/50 hover:bg-destructive/5 text-destructive">
+                  <Button variant="outline" size="sm" onClick={leaveParty} className="gap-1.5 border-border/30 text-destructive">
                     <LogOut className="h-4 w-4" /> Leave
                   </Button>
                   {isHost && (
-                    <Badge className="bg-gradient-to-r from-primary to-holo-indigo text-primary-foreground border-0 shadow-neon">
+                    <Badge className="bg-primary/20 text-primary border-primary/30">
                       <Crown className="h-3 w-3 mr-1" /> Host
                     </Badge>
                   )}
@@ -337,7 +329,7 @@ const WatchParty = () => {
               <div className="flex items-center gap-2">
                 <Server className="h-4 w-4 text-muted-foreground" />
                 <Select value={selectedServer} onValueChange={setSelectedServer}>
-                  <SelectTrigger className="w-[220px] h-8 text-xs bg-surface-2/50 border-border/30 rounded-xl">
+                  <SelectTrigger className="w-[220px] h-8 text-xs border-border/30">
                     <SelectValue placeholder="Select server" />
                   </SelectTrigger>
                   <SelectContent>
@@ -348,14 +340,14 @@ const WatchParty = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                <Badge className="bg-holo-cyan/20 text-holo-cyan border-holo-cyan/30 gap-1 text-xs">
+                <Badge variant="secondary" className="gap-1 text-xs">
                   <Users className="h-3 w-3" /> {participants.length} watching
                 </Badge>
               </div>
 
               {/* Video Player */}
               {party.content_id > 0 ? (
-                <div className="aspect-video rounded-2xl overflow-hidden relative border border-border/20">
+                <div className="aspect-video rounded-lg overflow-hidden border border-border/30">
                   <iframe
                     key={`${party.content_id}-${party.content_type}-${selectedServer}`}
                     src={getEmbedUrl(party.content_id, party.content_type as "movie" | "tv", undefined, undefined, selectedServer)}
@@ -367,14 +359,14 @@ const WatchParty = () => {
                   />
                 </div>
               ) : (
-                <div className="aspect-video rounded-2xl glass-holo flex items-center justify-center relative overflow-hidden">
+                <div className="aspect-video rounded-lg bg-card/50 border border-border/30 flex items-center justify-center">
                   <div className="text-center space-y-3">
                     <div className="w-20 h-20 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center">
                       <Film className="h-10 w-10 text-primary" />
                     </div>
                     <p className="text-muted-foreground">No movie selected yet</p>
                     {isHost && (
-                      <Button size="sm" variant="outline" className="rounded-xl" onClick={() => setMovieSearchOpen(true)}>
+                      <Button size="sm" variant="outline" onClick={() => setMovieSearchOpen(true)}>
                         <Search className="h-4 w-4 mr-1" /> Pick a Movie
                       </Button>
                     )}
@@ -383,9 +375,9 @@ const WatchParty = () => {
               )}
 
               {/* Participants */}
-              <Card className="glass-holo border-0">
+              <Card className="border-border/30 bg-card/50">
                 <CardHeader className="py-3">
-                  <CardTitle className="text-sm flex items-center gap-2 font-display">
+                  <CardTitle className="text-sm flex items-center gap-2">
                     <Users className="h-4 w-4 text-primary" />
                     Participants ({participants.length})
                   </CardTitle>
@@ -393,8 +385,8 @@ const WatchParty = () => {
                 <CardContent className="py-2">
                   <div className="flex flex-wrap gap-2">
                     {participants.map((p) => (
-                      <div key={p.id} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-1/50 border border-border/20">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-holo-cyan flex items-center justify-center text-xs font-bold text-primary-foreground">
+                      <div key={p.id} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-card border border-border/30">
+                        <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
                           {(displayNames[p.user_id] || "U")[0].toUpperCase()}
                         </div>
                         <span className="text-xs font-medium">{displayNames[p.user_id] || "User"}</span>
@@ -408,11 +400,10 @@ const WatchParty = () => {
 
             {/* Chat sidebar */}
             <div className="lg:col-span-1">
-              <Card className="glass-holo border-0 h-[600px] flex flex-col">
-                <CardHeader className="py-3 border-b border-border/20">
-                  <CardTitle className="text-sm flex items-center gap-2 font-display">
-                    <MessageSquare className="h-4 w-4 text-holo-cyan" /> Live Chat
-                    <Sparkles className="h-3 w-3 text-holo-magenta ml-auto" />
+              <Card className="border-border/30 bg-card/50 h-[600px] flex flex-col">
+                <CardHeader className="py-3 border-b border-border/30">
+                  <CardTitle className="text-sm flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4 text-primary" /> Live Chat
                   </CardTitle>
                 </CardHeader>
                 <ScrollArea className="flex-1 p-3">
@@ -424,12 +415,12 @@ const WatchParty = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className={cn(
                           "rounded-xl p-2",
-                          msg.message_type === "reaction" ? "text-center text-2xl" : "bg-surface-1/50 border border-border/10"
+                          msg.message_type === "reaction" ? "text-center text-2xl" : "bg-card border border-border/20"
                         )}
                       >
                         {msg.message_type !== "reaction" && (
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-xs font-semibold text-gradient">
+                            <span className="text-xs font-semibold text-primary">
                               {displayNames[msg.user_id] || "User"}
                             </span>
                             <span className="text-[10px] text-muted-foreground">
@@ -447,7 +438,7 @@ const WatchParty = () => {
                 </ScrollArea>
 
                 {/* Reactions */}
-                <div className="px-3 py-2 border-t border-border/20">
+                <div className="px-3 py-2 border-t border-border/30">
                   <div className="flex gap-1 mb-2 flex-wrap">
                     {REACTIONS.map((emoji) => (
                       <button
@@ -465,9 +456,9 @@ const WatchParty = () => {
                       onChange={(e) => setMessage(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                       placeholder="Say something..."
-                      className="flex-1 h-9 text-sm bg-surface-2/50 border-border/30 rounded-xl"
+                       className="flex-1 h-9 text-sm border-border/30"
                     />
-                    <Button size="sm" onClick={sendMessage} disabled={!message.trim()} className="h-9 btn-holo rounded-xl">
+                    <Button size="sm" onClick={sendMessage} disabled={!message.trim()} className="h-9">
                       <Send className="h-4 w-4" />
                     </Button>
                   </div>
