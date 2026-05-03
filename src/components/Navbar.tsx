@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, User, Menu, X, LogOut, Shield, Home, Compass, Film, HelpCircle } from "lucide-react";
+import { Search, User, Menu, X, LogOut, Shield, Home, Compass, Film, HelpCircle, Sparkles } from "lucide-react";
 import { NotificationBell } from "./NotificationBell";
 import { Logo } from "./Logo";
 import { Button } from "./ui/button";
@@ -12,9 +12,10 @@ import { toast } from "sonner";
 
 const navItems = [
   { label: "Home", href: "/home", icon: Home },
-  { label: "FAQ", href: "/changelog", icon: HelpCircle },
-  { label: "Explore", href: "/genres", icon: Compass },
+  { label: "K-Drama", href: "/kdrama", icon: Sparkles },
   { label: "Movies", href: "/movies", icon: Film },
+  { label: "Explore", href: "/genres", icon: Compass },
+  { label: "FAQ", href: "/changelog", icon: HelpCircle },
 ];
 
 export const Navbar = () => {
