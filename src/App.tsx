@@ -38,6 +38,7 @@ import Leaderboard from "./pages/Leaderboard";
 import YearlyRecap from "./pages/YearlyRecap";
 import Changelog from "./pages/Changelog";
 import DiscoverUsers from "./pages/DiscoverUsers";
+import KDrama from "./pages/KDrama";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -61,6 +62,7 @@ const AnimatedRoutes = () => {
         {/* Main app routes */}
         <Route path="/home" element={<Index />} />
         <Route path="/movies" element={<Movies />} />
+        <Route path="/kdrama" element={<KDrama />} />
         <Route path="/genres" element={<Genres />} />
         <Route path="/hubs" element={<Hubs />} />
         <Route path="/coming-soon" element={<ComingSoon />} />

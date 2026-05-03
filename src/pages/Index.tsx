@@ -14,6 +14,7 @@ import {
   fetchTrendingTV,
   discoverMovies,
   discoverTV,
+  fetchKDramas,
 } from "@/lib/tmdb";
 import { getContinueWatching, WatchProgress, removeWatchProgress } from "@/lib/watchHistory";
 import { useWatchHistory } from "@/hooks/useWatchHistory";
@@ -89,6 +90,10 @@ const Index = () => {
     queryKey: ["discover-anime"],
     queryFn: () => discoverTV({ withGenres: "16", sortBy: "popularity.desc" }),
   });
+  const { data: kdramaData } = useQuery({
+    queryKey: ["kdrama-home"],
+    queryFn: () => fetchKDramas("popularity.desc"),
+  });
 
   const continueWatchingMovies: Movie[] = continueWatching
     .filter((item) => item.posterPath)
@@ -148,6 +153,11 @@ const Index = () => {
           {/* Latest Update */}
           {nowPlayingData?.results && (
             <MovieCarousel title="Latest Update" movies={nowPlayingData.results} linkTo="/movies" />
+          )}
+
+          {/* K-Drama Spotlight */}
+          {kdramaData?.results && (
+            <MovieCarousel title="🇰🇷 K-Drama Spotlight" movies={kdramaData.results} linkTo="/kdrama" />
           )}
 
           {/* Trending */}
