@@ -481,6 +481,46 @@ export const discoverTV = async (params: {
   };
 };
 
+// K-drama helpers (Korean TV)
+export const fetchKDramas = async (
+  sortBy: string = "popularity.desc",
+  page = 1,
+  extraGenres?: string
+): Promise<MoviesResponse> => {
+  const params: Record<string, string> = {
+    language: "en-US",
+    page: String(page),
+    sort_by: sortBy,
+    with_origin_country: "KR",
+    with_original_language: "ko",
+  };
+  if (extraGenres) params.with_genres = extraGenres;
+  const data = await tmdbFetch<any>("/discover/tv", params);
+  return {
+    ...data,
+    results: data.results.map((item: any) => ({
+      ...item,
+      title: item.name,
+      release_date: item.first_air_date,
+      media_type: "tv" as const,
+    })),
+  };
+};
+
+// K-movies (Korean cinema)
+export const fetchKMovies = async (
+  sortBy: string = "popularity.desc",
+  page = 1
+): Promise<MoviesResponse> => {
+  return tmdbFetch<MoviesResponse>("/discover/movie", {
+    language: "en-US",
+    page: String(page),
+    sort_by: sortBy,
+    with_origin_country: "KR",
+    with_original_language: "ko",
+  });
+};
+
 // TV Genres
 export const fetchTVGenres = async (): Promise<{ genres: Genre[] }> => {
   return tmdbFetch<{ genres: Genre[] }>('/genre/tv/list', { language: 'en-US' });
