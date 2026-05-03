@@ -155,6 +155,11 @@ const Index = () => {
             <MovieCarousel title="Latest Update" movies={nowPlayingData.results} linkTo="/movies" />
           )}
 
+          {/* K-Drama Spotlight */}
+          {kdramaData?.results && (
+            <MovieCarousel title="🇰🇷 K-Drama Spotlight" movies={kdramaData.results} linkTo="/kdrama" />
+          )}
+
           {/* Trending */}
           {trendingAllData?.results && (
             <MovieCarousel title="Trending Now" movies={trendingAllData.results} linkTo="/trending" />
