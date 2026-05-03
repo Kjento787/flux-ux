@@ -38,6 +38,7 @@ import Leaderboard from "./pages/Leaderboard";
 import YearlyRecap from "./pages/YearlyRecap";
 import Changelog from "./pages/Changelog";
 import DiscoverUsers from "./pages/DiscoverUsers";
+import KDrama from "./pages/KDrama";
 
 const queryClient = new QueryClient({
   defaultOptions: {
