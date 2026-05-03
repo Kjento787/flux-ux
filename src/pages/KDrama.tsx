@@ -13,7 +13,7 @@ const KDrama = () => {
   });
   const { data: topRated } = useQuery({
     queryKey: ["kdrama", "top"],
-    queryFn: () => fetchKDramas("vote_average.desc&vote_count.gte=100"),
+    queryFn: () => fetchKDramas("vote_average.desc"),
   });
   const { data: latest } = useQuery({
     queryKey: ["kdrama", "latest"],
