@@ -14,6 +14,7 @@ import {
   fetchTrendingTV,
   discoverMovies,
   discoverTV,
+  fetchKDramas,
 } from "@/lib/tmdb";
 import { getContinueWatching, WatchProgress, removeWatchProgress } from "@/lib/watchHistory";
 import { useWatchHistory } from "@/hooks/useWatchHistory";
