@@ -90,6 +90,10 @@ const Index = () => {
     queryKey: ["discover-anime"],
     queryFn: () => discoverTV({ withGenres: "16", sortBy: "popularity.desc" }),
   });
+  const { data: kdramaData } = useQuery({
+    queryKey: ["kdrama-home"],
+    queryFn: () => fetchKDramas("popularity.desc"),
+  });
 
   const continueWatchingMovies: Movie[] = continueWatching
     .filter((item) => item.posterPath)
