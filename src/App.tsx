@@ -62,6 +62,7 @@ const AnimatedRoutes = () => {
         {/* Main app routes */}
         <Route path="/home" element={<Index />} />
         <Route path="/movies" element={<Movies />} />
+        <Route path="/kdrama" element={<KDrama />} />
         <Route path="/genres" element={<Genres />} />
         <Route path="/hubs" element={<Hubs />} />
         <Route path="/coming-soon" element={<ComingSoon />} />
