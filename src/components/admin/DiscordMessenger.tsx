@@ -81,6 +81,7 @@ export const DiscordMessenger = () => {
       const { data, error } = await supabase.functions.invoke("discord-send-message", {
         body: {
           type,
+          channel,
           title: title.trim(),
           message: message.trim(),
           color,
