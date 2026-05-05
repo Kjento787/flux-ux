@@ -144,6 +144,33 @@ export const DiscordMessenger = () => {
         </div>
       </div>
 
+      {/* Channel target */}
+      <div>
+        <Label className="text-sm font-medium mb-3 block">Send To Channel</Label>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {[
+            { id: "main", label: "Main", emoji: "📢" },
+            { id: "kdrama", label: "K-Drama", emoji: "🇰🇷" },
+            { id: "action", label: "Action", emoji: "💥" },
+            { id: "comedy", label: "Comedy", emoji: "😂" },
+          ].map((ch) => (
+            <button
+              key={ch.id}
+              onClick={() => setChannel(ch.id as any)}
+              className={cn(
+                "flex items-center justify-center gap-2 p-2.5 rounded-xl border-2 text-sm transition-all",
+                channel === ch.id
+                  ? "border-primary bg-primary/10"
+                  : "border-border/40 bg-card/50 hover:border-primary/30"
+              )}
+            >
+              <span>{ch.emoji}</span>
+              <span className="font-medium">{ch.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Form */}
         <div className="space-y-4">
