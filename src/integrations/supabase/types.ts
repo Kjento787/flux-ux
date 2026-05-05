@@ -949,6 +949,33 @@ export type Database = {
       }
     }
     Views: {
+      my_ban_status: {
+        Row: {
+          banned_at: string | null
+          expires_at: string | null
+          id: string | null
+          is_permanent: boolean | null
+          reason: string | null
+          user_id: string | null
+        }
+        Insert: {
+          banned_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          is_permanent?: boolean | null
+          reason?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          banned_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          is_permanent?: boolean | null
+          reason?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       public_profiles: {
         Row: {
           avatar_url: string | null
