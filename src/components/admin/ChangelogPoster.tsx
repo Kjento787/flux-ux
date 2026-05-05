@@ -114,7 +114,7 @@ export const ChangelogPoster = () => {
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">📋 Changelog Updates</CardTitle>
         <CardDescription>
-          Pre-written changelogs ready to publish to Discord — just click the button
+          Auto-published to Discord & site every 5 minutes — or push manually below.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

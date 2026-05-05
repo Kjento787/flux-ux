@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getCategoryWebhooks, postToWebhooks } from "../_shared/discordCategory.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -120,6 +121,21 @@ Deno.serve(async (req) => {
         });
         sentCount++;
         console.log(`Notified: ${show.name}`);
+
+        const categories = getCategoryWebhooks({
+          genreIds: show.genre_ids || [],
+          originCountries: show.origin_country || [],
+          originalLanguage: show.original_language,
+        });
+        if (categories.length > 0) {
+          const categoryPayload = {
+            username: "Flux-UX",
+            avatar_url: "https://flux-ux.lovable.app/favicon.ico",
+            content: `# ${categories.map((c) => c.emoji).join(" ")} New ${categories.map((c) => c.label).join(" / ")} Series\n**${show.name}** just launched.`,
+            embeds: [{ ...embed, color: categories[0].color }],
+          };
+          await postToWebhooks(categories.map((c) => c.url), categoryPayload);
+        }
       } else {
         const errText = await discordRes.text();
         console.error(`Discord error for ${show.name}: ${errText}`);

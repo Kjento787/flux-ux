@@ -12,6 +12,12 @@ Deno.serve(async (req) => {
 
   try {
     const DISCORD_WEBHOOK_URL = Deno.env.get("DISCORD_WEBHOOK_URL");
+    const CHANNEL_WEBHOOKS: Record<string, string | undefined> = {
+      main: DISCORD_WEBHOOK_URL,
+      kdrama: Deno.env.get("DISCORD_WEBHOOK_KDRAMA"),
+      action: Deno.env.get("DISCORD_WEBHOOK_ACTION"),
+      comedy: Deno.env.get("DISCORD_WEBHOOK_COMEDY"),
+    };
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
@@ -37,6 +43,7 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const {
       type,
+      channel,
       title,
       message,
       color,
@@ -47,6 +54,9 @@ Deno.serve(async (req) => {
       threadName,
       pingEveryone,
     } = body;
+
+    const targetWebhook = CHANNEL_WEBHOOKS[channel || "main"] || DISCORD_WEBHOOK_URL;
+    if (!targetWebhook) throw new Error(`No webhook configured for channel: ${channel}`);
 
     // Build embed
     const embedColor = color ? parseInt(color.replace("#", ""), 16) : 0xd4a44a;
@@ -113,9 +123,8 @@ Deno.serve(async (req) => {
     };
 
     // If threadName is provided, create in a thread
-    let webhookUrl = DISCORD_WEBHOOK_URL;
+    let webhookUrl = targetWebhook;
     if (threadName) {
-      // First send creates the thread
       webhookUrl += "?wait=true";
     }
 
