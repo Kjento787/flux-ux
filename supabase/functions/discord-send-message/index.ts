@@ -123,9 +123,8 @@ Deno.serve(async (req) => {
     };
 
     // If threadName is provided, create in a thread
-    let webhookUrl = DISCORD_WEBHOOK_URL;
+    let webhookUrl = targetWebhook;
     if (threadName) {
-      // First send creates the thread
       webhookUrl += "?wait=true";
     }
 
