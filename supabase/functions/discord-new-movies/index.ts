@@ -102,6 +102,21 @@ Deno.serve(async (req) => {
           title: movie.title,
         });
         sentCount++;
+
+        // Fan out to category-specific webhooks
+        const categories = getCategoryWebhooks({
+          genreIds: movie.genre_ids || [],
+          originalLanguage: movie.original_language,
+        });
+        if (categories.length > 0) {
+          const categoryPayload = {
+            username: "Flux-UX",
+            avatar_url: "https://flux-ux.lovable.app/favicon.ico",
+            content: `# ${categories.map((c) => c.emoji).join(" ")} New ${categories.map((c) => c.label).join(" / ")} Drop\n**${movie.title}** just landed.`,
+            embeds: [{ ...embed, color: categories[0].color }],
+          };
+          await postToWebhooks(categories.map((c) => c.url), categoryPayload);
+        }
       }
 
       // Rate limit: wait 1s between messages
