@@ -31,6 +31,7 @@ interface CustomField {
 
 export const DiscordMessenger = () => {
   const [type, setType] = useState("announcement");
+  const [channel, setChannel] = useState<"main" | "kdrama" | "action" | "comedy">("main");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [color, setColor] = useState("#d4a44a");
