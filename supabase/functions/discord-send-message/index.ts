@@ -43,6 +43,7 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const {
       type,
+      channel,
       title,
       message,
       color,
@@ -53,6 +54,9 @@ Deno.serve(async (req) => {
       threadName,
       pingEveryone,
     } = body;
+
+    const targetWebhook = CHANNEL_WEBHOOKS[channel || "main"] || DISCORD_WEBHOOK_URL;
+    if (!targetWebhook) throw new Error(`No webhook configured for channel: ${channel}`);
 
     // Build embed
     const embedColor = color ? parseInt(color.replace("#", ""), 16) : 0xd4a44a;
