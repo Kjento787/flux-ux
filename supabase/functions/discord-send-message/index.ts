@@ -12,6 +12,12 @@ Deno.serve(async (req) => {
 
   try {
     const DISCORD_WEBHOOK_URL = Deno.env.get("DISCORD_WEBHOOK_URL");
+    const CHANNEL_WEBHOOKS: Record<string, string | undefined> = {
+      main: DISCORD_WEBHOOK_URL,
+      kdrama: Deno.env.get("DISCORD_WEBHOOK_KDRAMA"),
+      action: Deno.env.get("DISCORD_WEBHOOK_ACTION"),
+      comedy: Deno.env.get("DISCORD_WEBHOOK_COMEDY"),
+    };
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
