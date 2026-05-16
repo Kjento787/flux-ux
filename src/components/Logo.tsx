@@ -15,8 +15,8 @@ export const Logo = ({ className = "", showText = true, size = "md" }: LogoProps
 
   return (
     <span className={cn("font-bold tracking-wide select-none", sizeClasses[size], className)}>
-      <span className="text-primary">FLUX</span>
-      <span className="text-muted-foreground">-UX</span>
+      <span className="text-primary">Hallyu</span>
+      <span className="text-muted-foreground">+</span>
     </span>
   );
 };
