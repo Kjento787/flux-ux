@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireCronSecret, requireAdmin } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,6 +16,15 @@ const TYPE_META: Record<string, { emoji: string; label: string; color: number }>
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Allow either a cron secret (scheduler) or an authenticated admin
+  const cronOk = requireCronSecret(req) === null;
+  if (!cronOk) {
+    const adminCheck = await requireAdmin(req);
+    if (adminCheck instanceof Response) {
+      return new Response(adminCheck.body, { status: adminCheck.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
   }
 
   try {

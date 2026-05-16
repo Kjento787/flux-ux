@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireUser } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,8 +12,19 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const authed = await requireUser(req);
+    if (authed instanceof Response) {
+      return new Response(authed.body, { status: authed.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const { user_id } = await req.json();
     if (!user_id) throw new Error("user_id is required");
+    if (user_id !== authed.userId) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
