@@ -14,8 +14,8 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background">
       <div className="flex flex-col items-center gap-3">
         <span className="font-bold tracking-wide text-3xl md:text-4xl">
-          <span className="text-primary">FLUX</span>
-          <span className="text-muted-foreground">-UX</span>
+          <span className="text-primary">Hallyu</span>
+          <span className="text-muted-foreground">+</span>
         </span>
         <div className="w-20 h-0.5 bg-border rounded-full overflow-hidden">
           <div
