@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireUser } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,11 +12,33 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const authed = await requireUser(req);
+    if (authed instanceof Response) {
+      return new Response(authed.body, { status: authed.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const DISCORD_BOT_TOKEN = Deno.env.get("DISCORD_BOT_TOKEN");
     if (!DISCORD_BOT_TOKEN) throw new Error("Missing DISCORD_BOT_TOKEN");
 
     const { discord_user_id, display_name } = await req.json();
     if (!discord_user_id) throw new Error("Missing discord_user_id");
+
+    // Verify the caller actually owns this discord_user_id linkage
+    const admin = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+    const { data: prof } = await admin
+      .from("profiles")
+      .select("discord_user_id")
+      .eq("id", authed.userId)
+      .maybeSingle();
+    if (!prof || prof.discord_user_id !== discord_user_id) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     // Create DM channel
     const dmChannelRes = await fetch("https://discord.com/api/v10/users/@me/channels", {
